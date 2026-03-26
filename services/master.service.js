@@ -42,7 +42,6 @@ exports.savePlant = async (data) => {
 
     console.error("TRANSACTION ERROR:", err.message);
 
-    // ✅ ป้องกัน rollback ซ้ำ
     if (!transaction._aborted) {
       await transaction.rollback();
     }
