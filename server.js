@@ -25,20 +25,12 @@ app.use((req, res, next) => {
 // API Routes
 const AuthRoutes = require('./routes/auth.routes');
 const MasterRoutes = require("./routes/master.routes");
-const PlantRoutes = require("./routes/mplant.routes");
 const DashboardRoutes = require('./routes/dashboard.routes')(io);
 
-// const ProtectedRoutes = require('./routes/protected');
-// const UploadRoutes = require("./routes/upload");
 // API Routes
-
 app.use('/api/auth', AuthRoutes);
 app.use("/api/master", MasterRoutes);
-app.use("/api/plant", PlantRoutes); 
 app.use("/api/dashboard", DashboardRoutes);
-
-// app.use('/api/protect', ProtectedRoutes);
-// app.use("/api/upload", UploadRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello Node JS');
