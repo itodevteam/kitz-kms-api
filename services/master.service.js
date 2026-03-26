@@ -8,12 +8,12 @@ exports.getItems = async () => {
 };
 
 // GET ITEM BY OWNER
-exports.getItemByOwner = async (ownercode) => {
+exports.getItemByOwner = async (vendno) => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .input("ownercode", sql.NVarChar, ownercode)
-    .query("SELECT * FROM tbm_ItemMaster WHERE ownercode = @ownercode");
+    .input("vendno", sql.NVarChar, vendno)
+    .query("SELECT * FROM tbm_ItemMaster");
 
   return result.recordset;
 };
@@ -21,6 +21,6 @@ exports.getItemByOwner = async (ownercode) => {
 // GET VENDOR
 exports.getVendor = async () => {
   const pool = await poolPromise;
-  const result = await pool.request().query("EXEC zrp_GetVenderMaster");
+  const result = await pool.request().query("EXEC zsp_GetVendor");
   return result.recordset;
 };
