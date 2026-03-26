@@ -4,7 +4,7 @@ const mplantController = require("../controller/mplant.controller.js");
 const verifyToken = require('../middleware/verifyToken');
 
 // Plant Master
-router.post("/getplant", verifyToken, mplantController.getPlant);
-//router.post("/uploadplant", verifyToken, mplantController.uploadPlant);
+router.post("/setplant", verifyToken, mplantController.setPlant);
+router.post("/saveplant", verifyToken, mplantController.savePlant);
 
 module.exports = router;
