@@ -1,40 +1,20 @@
 const { sql, poolPromise } = require("../config/db");
 
-exports.uploadPO = async (data) => {
+exports.insertPO = async (data) => {
   const pool = await poolPromise;
-  const transaction = new sql.Transaction(pool);
 
   try {
-    await transaction.begin();
-
-    for (const row of data) {
-      await new sql.Request(transaction)
-        .input("flag", sql.NVarChar, row.flag || null)
-        .input("cond", sql.NVarChar, row.cond || null)
-        .input("plantno", sql.NVarChar, row.plantno || null)
-        .input("plantname", sql.NVarChar, row.plantname || null)
-        .input("isactive", sql.Bit, row.isactive ?? null)
-        .input("createby", sql.NVarChar, row.createdby || null)
-        .input("device", sql.NVarChar, row.device || null)
-        .execute("zsp_uploadpo");
-    }
-
-    await transaction.commit();
+    const result = await pool.request()
+      .input("json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+      .execute("sp_InsertPurchOrderUpload");
 
     return {
-      success: true,
-      message: "Transaction completed"
+      status: result.recordsets[0][0], 
+      data: result.recordsets[1] || []
     };
 
-  } catch (err) {
-
-    console.error("TRANSACTION ERROR:", err.message);
-
-    // ✅ ป้องกัน rollback ซ้ำ
-    if (!transaction._aborted) {
-      await transaction.rollback();
-    }
-
-    throw new Error(`Transaction failed: ${err.message}`);
+  } catch (error) {
+    console.error("SERVICE ERROR:", error);
+    throw error;
   }
 };

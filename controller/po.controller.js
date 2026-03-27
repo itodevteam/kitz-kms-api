@@ -4,24 +4,29 @@ exports.uploadPO = async (req, res) => {
   try {
     const { data } = req.body;
 
-    if (!data || !Array.isArray(data)) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return res.status(400).json({
-        message: "data must be array"
+        success: false,
+        message: "Invalid data format"
       });
     }
 
-    await poService.uploadPO(data);
+    const result = await poService.insertPO(data);
 
-    res.status(200).json({
-      success: true,
-      message: "Upload po data completed"
+    res.json({
+      success: result.status.success === 1,
+      message: result.status.message,
+      totalRow: result.status.totalRow,
+      data: result.data
     });
 
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error("API ERROR:", error);
+
     res.status(500).json({
       success: false,
-      message: err.message
+      message: "Internal Server Error",
+      error: error.message
     });
   }
 };
