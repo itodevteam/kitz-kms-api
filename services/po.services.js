@@ -6,7 +6,7 @@ exports.insertPO = async (data) => {
   try {
     const result = await pool.request()
       .input("json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-      .execute("sp_InsertPurchOrderUpload");
+      .execute("zsp_InsertPurchOrderUpload");
 
     return {
       status: result.recordsets[0][0], 

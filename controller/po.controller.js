@@ -1,4 +1,4 @@
-const poService = require("../services/po.service");
+const poService = require("../services/po.services");
 
 exports.uploadPO = async (req, res) => {
   try {
