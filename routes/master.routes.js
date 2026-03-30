@@ -15,5 +15,14 @@ router.post("/setcategory", masterController.setCategory);
 router.post("/savecategory", masterController.saveCategory);
 router.post("/deletecategory", masterController.deleteCategory);
 
+// Unit Master
+router.post("/setunit", masterController.setUnit);
+router.post("/saveunit", masterController.saveUnit);
+router.post("/deleteunit", masterController.deleteUnit);
+
+// Language Master
+router.post("/setlanguage", masterController.setLanguage);
+router.post("/savelanguage", masterController.saveLanguage);
+router.post("/deletelanguage", masterController.deleteLanguage);
 
 module.exports = router;
