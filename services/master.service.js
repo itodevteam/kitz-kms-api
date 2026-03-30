@@ -343,3 +343,183 @@ exports.deleteLanguage = async (data) => {
     throw new Error(`Transaction failed: ${err.message}`);
   }
 };
+
+
+// Employee Master
+
+exports.setEmployee = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC mas_employee @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.saveEmployee = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .input("employeecode", sql.NVarChar, row.employeecode || null)
+        .input("companycode", sql.NVarChar, row.companycode || null)
+        .input("departmentcode", sql.NVarChar, row.departmentcode || null)
+        .input("titlename", sql.NVarChar, row.titlename || null)
+        .input("firstname", sql.NVarChar, row.firstname || null)
+        .input("lastname", sql.NVarChar, row.lastname || null)
+        .input("sex", sql.NVarChar, row.sex || null)
+        .input("positioncode", sql.NVarChar, row.positioncode || null)
+        .input("email", sql.NVarChar, row.email || null)
+        .input("phone", sql.NVarChar, row.phone || null)
+        .input("isactive", sql.Bit, row.isactive ?? null)
+        .input("createby", sql.NVarChar, row.createdby || null)
+        .input("device", sql.NVarChar, row.device || null)
+        .execute("mas_employee");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+exports.deleteEmployee = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("mas_employee");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+
+// Currency Master
+
+exports.setCurrency = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC mas_currency @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.saveCurrency = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .input("currencycode", sql.NVarChar, row.currencycode || null)
+        .input("currencyname", sql.NVarChar, row.currencyname || null)
+        .input("isactive", sql.Bit, row.isactive ?? null)
+        .input("createby", sql.NVarChar, row.createdby || null)
+        .input("device", sql.NVarChar, row.device || null)
+        .execute("mas_currency");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+exports.deleteCurrency = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("mas_Currency");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+

@@ -25,4 +25,15 @@ router.post("/setlanguage", masterController.setLanguage);
 router.post("/savelanguage", masterController.saveLanguage);
 router.post("/deletelanguage", masterController.deleteLanguage);
 
+// Employee Master
+router.post("/setemployee", masterController.setEmployee);
+router.post("/saveemployee", masterController.saveEmployee);
+router.post("/deleteemployee", masterController.deleteEmployee);
+
+// Currency Master
+router.post("/setcurrency", masterController.setCurrency);
+router.post("/savecurrency", masterController.saveCurrency);
+router.post("/deletecurrency", masterController.deleteCurrency);
+
+
 module.exports = router;

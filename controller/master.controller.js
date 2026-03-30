@@ -288,4 +288,147 @@ exports.deleteLanguage = async (req, res) => {
     });
   }
 };
+// Employee Master
+exports.setEmployee = async (req, res) => {
+  try {
+    const { flag, cond } = req.body;
+
+    const data = await masterService.setEmployee(flag, cond);
+
+    res.json({
+      success: true,
+      message: "Select employee data completed",
+      data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+exports.saveEmployee = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        message: "data must be array"
+      });
+    }
+
+    await masterService.saveEmployee(data);
+
+    res.status(200).json({
+      success: true,
+      message: "Save employee data completed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+exports.deleteEmployee = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        message: "data must be array"
+      });
+    }
+
+    await masterService.deleteEmployee(data);
+
+    res.status(200).json({
+      success: true,
+      message: "Delete employee data completed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+// Currency Master
+exports.setCurrency = async (req, res) => {
+  try {
+    const { flag, cond } = req.body;
+
+    const data = await masterService.setCurrency(flag, cond);
+
+    res.json({
+      success: true,
+      message: "Select currency data completed",
+      data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+exports.saveCurrency = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        message: "data must be array"
+      });
+    }
+
+    await masterService.saveCurrency(data);
+
+    res.status(200).json({
+      success: true,
+      message: "Save currency data completed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+exports.deleteCurrency = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        message: "data must be array"
+      });
+    }
+
+    await masterService.deleteCurrency(data);
+
+    res.status(200).json({
+      success: true,
+      message: "Delete currency data completed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
 
