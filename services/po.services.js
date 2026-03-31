@@ -1,3 +1,4 @@
+const e = require("cors");
 const { sql, poolPromise } = require("../config/db");
 
 exports.insertPO = async (data) => {
@@ -6,7 +7,7 @@ exports.insertPO = async (data) => {
   try {
     const result = await pool.request()
       .input("json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-      .execute("zsp_InsertPurchOrderUpload");
+      .execute("zsp_PurchOrderUpload");
 
     return {
       status: result.recordsets[0][0], 
@@ -19,40 +20,26 @@ exports.insertPO = async (data) => {
   }
 };
 
-exports.getPOWaitPrepare = async (params) => {
+
+exports.getPOWaitPrepare = async (empCode) => {
   const pool = await poolPromise;
-
-  try {
-    const result = await pool.request()
-      .input("json", sql.NVarChar(sql.MAX), JSON.stringify(params))
-      .execute("zsp_GetPOWaitPrepare");
-
-    return {
-      status: (result.recordsets && result.recordsets[0] && result.recordsets[0][0]) || {},
-      data: result.recordsets[1] || []
-    };
-  } catch (error) {
-    console.error("SERVICE ERROR:", error);
-    throw error;
-  }
+  const result = await pool
+    .request()
+    .input("empcode", sql.NVarChar, empCode)
+    .query("EXEC zsp_GetPOWaitPrepare @empcode");
+  
+  return result.recordset;
 };
 
-exports.getPOWaitApprove = async (params) => {
+
+exports.getPOWaitApprove = async (userNo) => {
   const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("userNo", sql.NVarChar, userNo)
+    .query("EXEC zsp_GetPOWaitApprove @userNo");
 
-  try {
-    const result = await pool.request()
-      .input("json", sql.NVarChar(sql.MAX), JSON.stringify(params))
-      .execute("zsp_GetPOWaitForApprove");
-
-    return {
-      status: (result.recordsets && result.recordsets[0] && result.recordsets[0][0]) || {},
-      data: result.recordsets[1] || []
-    };
-  } catch (error) {
-    console.error("SERVICE ERROR:", error);
-    throw error;
-  }
+  return result.recordset;
 };
 
 exports.poApproval = async (data) => {
@@ -96,3 +83,5 @@ exports.poApproval = async (data) => {
     throw err;
   }
 };
+
+

@@ -1,3 +1,4 @@
+const e = require("cors");
 const poService = require("../services/po.services");
 
 exports.uploadPO = async (req, res) => {
@@ -33,16 +34,16 @@ exports.uploadPO = async (req, res) => {
 
 exports.getPOWaitPrepare = async (req, res) => {
   try {
-    const { userno } = req.body;
+    const { empCode } = req.body;
 
-    if (!userno) {
+    if (!empCode) {
       return res.status(400).json({
         success: false,
-        message: "Missing userno"
+        message: "Missing empCode"
       });
     }
 
-    const result = await poService.getPOWaitPrepare({ userno });
+    const result = await poService.getPOWaitPrepare(empCode);
 
     res.json({
       success: result.status.success === 1,
@@ -63,16 +64,16 @@ exports.getPOWaitPrepare = async (req, res) => {
 
 exports.getPOWaitApprove = async (req, res) => {
   try {
-    const { userNo } = req.body;   
+    const { userNo } = req.body;  
 
-    if (!userId || !plantId) {
+    if (!userNo) {
       return res.status(400).json({
         success: false,
-        message: "Missing userId or plantId"
+        message: "Missing userNo"
       });
     }
 
-    const result = await poService.getPOWaitApprove({ userNo });
+    const result = await poService.getPOWaitApprove(userNo);
     res.json({
       success: result.status.success === 1,
       message: result.status.message,
