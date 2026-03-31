@@ -27,7 +27,9 @@ exports.login = async ({ username, password }) => {
     { expiresIn: process.env.REFRESH_EXPIRE }
   );
 
-  return { accessToken, refreshToken };
+  const userId = user.UserId;
+  const PermissionCode = user.Permission;
+  return { accessToken, refreshToken, userId, PermissionCode  };
 };
 
 // REFRESH TOKEN
