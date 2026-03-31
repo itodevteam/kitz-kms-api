@@ -10,17 +10,10 @@ router.post("/setplant", masterController.setPlant);
 router.post("/saveplant", masterController.savePlant);
 router.post("/deleteplant", masterController.deletePlant);
 
-<<<<<<< HEAD
 // Category Master
 router.post("/setcategory", masterController.setCategory);
 router.post("/savecategory", masterController.saveCategory);
 router.post("/deletecategory", masterController.deleteCategory);
-=======
-//router.post("/saveplant", verifyToken, masterController.savePlant);
-
-// test 
-
->>>>>>> 6095ed643d3bdfc4db76fa292a4fe6761783eba4
 
 // Unit Master
 router.post("/setunit", masterController.setUnit);
