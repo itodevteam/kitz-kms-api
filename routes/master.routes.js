@@ -35,5 +35,44 @@ router.post("/setcurrency", masterController.setCurrency);
 router.post("/savecurrency", masterController.saveCurrency);
 router.post("/deletecurrency", masterController.deleteCurrency);
 
+// Department Master
+router.post("/setdepartment", masterController.setDepartment);
+router.post("/savedepartment", masterController.saveDepartment);
+router.post("/deletedepartment", masterController.deleteDepartment);
 
+// Matrix Master
+router.post("/setmatrix", masterController.setMatrix);
+router.post("/savematrix", masterController.saveMatrix);
+router.post("/deletematrix", masterController.deleteMatrix);
+
+// Paymentterm Master
+router.post("/setpaymentterm", masterController.setPaymentterm);
+router.post("/savepaymentterm", masterController.savePaymentterm);
+router.post("/deletepaymentterm", masterController.deletePaymentterm);
+
+// Position Master
+router.post("/setposition", masterController.setPosition);
+router.post("/saveposition", masterController.savePosition);
+router.post("/deleteposition", masterController.deletePosition);
+
+// Positionpattern Master
+router.post("/setpositionpattern", masterController.setPositionpattern);
+router.post("/savepositionpattern", masterController.savePositionpattern);
+router.post("/deletepositionpattern", masterController.deletePositionpattern);
+
+// Sex Master
+router.post("/setsex", masterController.setSex);
+router.post("/savesex", masterController.saveSex);
+router.post("/deletesex", masterController.deleteSex);
+
+// Status Master
+router.post("/setstatus", masterController.setStatus);
+router.post("/savestatus", masterController.saveStatus);
+router.post("/deletestatus", masterController.deleteStatus);
+module.exports = router;
+
+// Titlename Master
+router.post("/settitlename", masterController.setTitlename);
+router.post("/savetitlename", masterController.saveTitlename);
+router.post("/deletetitlename", masterController.deleteTitlename);
 module.exports = router;
