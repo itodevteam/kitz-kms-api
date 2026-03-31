@@ -4,7 +4,9 @@ const poController = require("../controller/po.controller");
 const verifyToken = require('../middleware/verifyToken');
 
 // PO Orders
-router.post("/uploadpo", verifyToken, poController.uploadPO);
-
+router.post("/upload", verifyToken, poController.uploadPO);
+router.post("/waitprepare", verifyToken, poController.getPOWaitPrepare);
+router.post("/waitapprove", verifyToken, poController.getPOWaitApprove);
+router.post("/approval", verifyToken, poController.poApproval);
 
 module.exports = router;
