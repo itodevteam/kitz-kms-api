@@ -72,7 +72,7 @@ exports.getPOWaitApprove = async (req, res) => {
       });
     }
 
-    const result = await poService.getPOWaitForApprove({ userNo });
+    const result = await poService.getPOWaitApprove({ userNo });
     res.json({
       success: result.status.success === 1,
       message: result.status.message,
