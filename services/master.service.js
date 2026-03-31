@@ -1289,3 +1289,91 @@ exports.deleteVendor = async (data) => {
     throw new Error(`Transaction failed: ${err.message}`);
   }
 };
+// Item Master
+
+exports.setItem = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC mas_item @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.saveItem = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .input("itemno", sql.NVarChar, row.itemno || null)
+        .input("itemname", sql.NVarChar, row.itemname || null)
+        .input("itemtype", sql.NVarChar, row.itemtype || null)
+        .input("itemgroup", sql.NVarChar, row.itemgroup || null)
+        .input("cateno", sql.NVarChar, row.cateno || null)
+        .input("vendno", sql.NVarChar, row.vendno || null)
+        .input("isactive", sql.Bit, row.isactive ?? null)
+        .input("createby", sql.NVarChar, row.createdby || null)
+        .input("device", sql.NVarChar, row.device || null)
+        .execute("mas_item");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+exports.deleteItem = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("mas_item");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};

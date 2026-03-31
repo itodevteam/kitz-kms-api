@@ -81,4 +81,10 @@ module.exports = router;
 router.post("/setvendor", masterController.setVendor);
 router.post("/savevendor", masterController.saveVendor);
 router.post("/deletevendor", masterController.deleteVendor);
+
+// Item Master
+router.post("/setitem", masterController.setItem);
+router.post("/saveitem", masterController.saveItem);
+router.post("/deleteitem", masterController.deleteItem);
+
 module.exports = router;
