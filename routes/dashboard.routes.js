@@ -6,8 +6,7 @@ module.exports = function (io) {
   const router = express.Router();
 
   router.post(
-    "/dashboard/waitingdata",dashboardController.getWaitingData(io)
+    "/dashboard/waitingdata",verifyToken,dashboardController.getWaitingData(io)
   );
-
   return router;
 };
