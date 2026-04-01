@@ -29,12 +29,11 @@ exports.getPOMaster = async () => {
   return result.recordset;
 };
 
-exports.getPOWaitPrepare = async (empCode) => {
+exports.getPOWaitPrepare = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .input("empcode", sql.NVarChar, empCode)
-    .query("EXEC zsp_GetPOWaitPrepare @empcode");
+    .query("EXEC zsp_POWaitPrepare");
   
   return result.recordset;
 };
