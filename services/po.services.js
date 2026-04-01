@@ -24,7 +24,7 @@ exports.getPOMaster = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_GetPOMaster");
+    .query("EXEC zsp_POMaster");
   
   return result.recordset;
 };
