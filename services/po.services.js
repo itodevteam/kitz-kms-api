@@ -29,6 +29,16 @@ exports.getPOMaster = async () => {
   return result.recordset;
 };
 
+exports.getPODetail = async (purOrderNo) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("purOrderNo", sql.NVarChar, purOrderNo)
+    .query("EXEC zsp_GetPODetail @purOrderNo");
+
+  return result.recordset;
+};
+
 exports.getPOWaitPrepare = async () => {
   const pool = await poolPromise;
   const result = await pool
@@ -48,6 +58,7 @@ exports.getPOWaitApprove = async (userNo) => {
 
   return result.recordset;
 };
+
 
 exports.poApproval = async (data) => {
   const pool = await poolPromise;

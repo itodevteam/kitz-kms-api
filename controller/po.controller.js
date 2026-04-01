@@ -54,6 +54,36 @@ exports.getPOMaster = async (req, res) => {
   }
 };
 
+
+exports.getPODetail = async (req, res) => {
+  try {
+    const { purOrderNo } = req.body; // หรือ req.query
+
+    const data = await poService.getPODetail(purOrderNo);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No PO detail"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "PO detail",
+      data: data
+    });
+
+  } catch (err) {
+    console.error("API ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+
 exports.getPOWaitPrepare = async (req, res) => {
   try {
     const data = await poService.getPOWaitPrepare();
@@ -105,6 +135,7 @@ exports.getPOWaitApprove = async (req, res) => {
     });
   }
 };
+
 
 exports.poApproval = async (req, res) => {
   try {
