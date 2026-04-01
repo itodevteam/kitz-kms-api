@@ -1377,3 +1377,23 @@ exports.deleteItem = async (data) => {
     throw new Error(`Transaction failed: ${err.message}`);
   }
 };
+
+// Keyword Master
+exports.setKeyword = async (flag, cond, languageEn) => {
+    const pool = await poolPromise;
+    const result = await pool
+        .request()
+        .input("flag", sql.NVarChar, flag)
+        .input("cond", sql.NVarChar, cond)
+        .input("languageen", sql.NVarChar, languageEn)
+        .output("outmessage", sql.NVarChar) // ต้องตรงกับชื่อ OUTPUT parameter
+        .execute("mas_keyword"); // ใช้ execute แทน query
+
+    return {
+        success: true,
+        message: result.output.outmessage // คืนค่าที่ stored procedure ส่งออกมา
+    };
+};
+
+
+

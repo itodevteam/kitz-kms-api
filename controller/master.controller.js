@@ -1147,3 +1147,24 @@ exports.deleteItem = async (req, res) => {
     });
   }
 };
+
+// Keyword Master
+exports.setKeyword = async (req, res) => {
+  try {
+    const { flag, cond, languageen } = req.body.data[0]; // ดึงค่าจาก body
+
+    const result = await masterService.setKeyword(flag, cond, languageen);
+
+    res.json({
+      success: true,
+      message: result.message // คืน message จาก stored procedure โดยตรง
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+

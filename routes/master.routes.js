@@ -87,4 +87,9 @@ router.post("/setitem", masterController.setItem);
 router.post("/saveitem", masterController.saveItem);
 router.post("/deleteitem", masterController.deleteItem);
 
+// Keyword Master
+router.post("/setkeyword", masterController.setKeyword);
+
+
+
 module.exports = router;
