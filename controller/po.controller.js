@@ -80,30 +80,28 @@ exports.getPOWaitPrepare = async (req, res) => {
 
 exports.getPOWaitApprove = async (req, res) => {
   try {
-    const { userNo } = req.body;  
+    const { userNo } = req.body; // หรือ req.query
 
-    if (!userNo) {
-      return res.status(400).json({
+    const data = await poService.getPOWaitApprove(userNo);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
         success: false,
-        message: "Missing userNo"
+        message: "No PO waiting approve"
       });
     }
 
-    const result = await poService.getPOWaitApprove(userNo);
-    res.json({
-      success: result.status.success === 1,
-      message: result.status.message,
-      totalRow: result.status.totalRow,
-      data: result.data
+    res.status(200).json({
+      success: true,
+      message: "PO Waiting Approve",
+      data: data
     });
 
-  } catch (error) {
-    console.error("API ERROR:", error);
-
+  } catch (err) {
+    console.error("API ERROR:", err);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
-      error: error.message
+      message: err.message
     });
   }
 };
