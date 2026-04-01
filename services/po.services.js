@@ -24,7 +24,7 @@ exports.getPOMaster = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_POMaster");
+    .query("EXEC zsp_GetPOMaster");
   
   return result.recordset;
 };
@@ -33,7 +33,7 @@ exports.getPOWaitPrepare = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_POWaitPrepare");
+    .query("EXEC zsp_GetPOWaitPrepare");
   
   return result.recordset;
 };
