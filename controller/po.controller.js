@@ -32,6 +32,28 @@ exports.uploadPO = async (req, res) => {
   }
 };
 
+exports.getPOMaster = async (req, res) => {
+  try {
+    const result = await poService.getPOMaster(); 
+
+    res.json({
+      success: result.status.success === 1,
+      message: result.status.message,
+      totalRow: result.status.totalRow,
+      data: result.data
+    });
+
+  } catch (error) {
+    console.error("API ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+};
+
 exports.getPOWaitPrepare = async (req, res) => {
   try {
     const { empCode } = req.body;

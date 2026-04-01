@@ -20,6 +20,14 @@ exports.insertPO = async (data) => {
   }
 };
 
+exports.getPOMaster = async () => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .query("EXEC zsp_GetPOMaster");
+  
+  return result.recordset;
+};
 
 exports.getPOWaitPrepare = async (empCode) => {
   const pool = await poolPromise;
