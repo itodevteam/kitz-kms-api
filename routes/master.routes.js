@@ -69,13 +69,13 @@ router.post("/deletesex", masterController.deleteSex);
 router.post("/setstatus", masterController.setStatus);
 router.post("/savestatus", masterController.saveStatus);
 router.post("/deletestatus", masterController.deleteStatus);
-module.exports = router;
+
 
 // Titlename Master
 router.post("/settitlename", masterController.setTitlename);
 router.post("/savetitlename", masterController.saveTitlename);
 router.post("/deletetitlename", masterController.deleteTitlename);
-module.exports = router;
+
 
 // Vendor Master
 router.post("/setvendor", masterController.setVendor);
