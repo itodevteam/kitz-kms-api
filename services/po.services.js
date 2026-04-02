@@ -101,4 +101,12 @@ exports.poApproval = async (data) => {
     throw err;
   }
 };
+exports.getPOWaitApproveDetail = async (userNo) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("userNo", sql.NVarChar, userNo)
+    .query("EXEC zsp_GetPOWaitApproveDetail @userNo");
 
+  return result.recordset;
+};

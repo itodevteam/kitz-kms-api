@@ -168,3 +168,30 @@ exports.poApproval = async (req, res) => {
   }
 };
 
+exports.getPOWaitApproveDetail = async (req, res) => {
+  try {
+    const { userNo } = req.body; // หรือ req.query
+
+    const data = await poService.getPOWaitApproveDetail(userNo);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No PO waiting approve"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "PO Waiting Approve",
+      data: data
+    });
+
+  } catch (err) {
+    console.error("API ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
