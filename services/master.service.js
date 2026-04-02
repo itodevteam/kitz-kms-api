@@ -1061,6 +1061,7 @@ exports.saveStatus = async (data) => {
         .input("cond", sql.NVarChar, row.cond || null)
         .input("statusname", sql.NVarChar, row.statusname || null)
         .input("statustype", sql.NVarChar, row.statustype || null)
+        .input("fontcolor", sql.NVarChar, row.fontcolor || null)
         .input("isactive", sql.Bit, row.isactive ?? null)
         .input("createby", sql.NVarChar, row.createdby || null)
         .input("device", sql.NVarChar, row.device || null)
