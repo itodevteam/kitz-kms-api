@@ -10,5 +10,5 @@ router.post("/detail", poController.getPODetail);
 router.post("/waitprepare", poController.getPOWaitPrepare);
 router.post("/waitapprove", poController.getPOWaitApprove);
 router.post("/approval", poController.poApproval);
-router.post("/waitapprovedetail", poController.getPOWaitApprove);
+router.post("/waitapprovedetail", poController.getPOWaitApproveDetail);
 module.exports = router;
