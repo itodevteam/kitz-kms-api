@@ -195,24 +195,21 @@ exports.getPOWaitApproveDetail = async (req, res) => {
 
 exports.createPOApproval = async (req, res) => {
   try {
-    const { data } = req.body;
+    const { data, createBy } = req.body;
 
-    const result = await poService.CreatePOApproval(data);
+    const result = await poService.createPOApproval(data, createBy);
 
     res.json({
-      success: result.status.success === 1,
-      message: result.status.message,
-      totalRow: result.status.totalRow,
-      data: result.data
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
     });
 
-  } catch (error) {
-    console.error("API ERROR:", error);
-
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
-      error: error.message
+      message: err.message
     });
   }
 };
