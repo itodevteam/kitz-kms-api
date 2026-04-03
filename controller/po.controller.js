@@ -54,7 +54,6 @@ exports.getPOMaster = async (req, res) => {
   }
 };
 
-
 exports.getPODetail = async (req, res) => {
   try {
     const { purOrderNo } = req.body; // หรือ req.query
@@ -82,7 +81,6 @@ exports.getPODetail = async (req, res) => {
     });
   }
 };
-
 
 exports.getPOWaitPrepare = async (req, res) => {
   try {
@@ -135,7 +133,6 @@ exports.getPOWaitApprove = async (req, res) => {
     });
   }
 };
-
 
 exports.poApproval = async (req, res) => {
   try {
@@ -192,6 +189,30 @@ exports.getPOWaitApproveDetail = async (req, res) => {
     res.status(500).json({
       success: false,
       message: err.message
+    });
+  }
+};
+
+exports.createPOApproval = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const result = await poService.CreatePOApproval(data);
+
+    res.json({
+      success: result.status.success === 1,
+      message: result.status.message,
+      totalRow: result.status.totalRow,
+      data: result.data
+    });
+
+  } catch (error) {
+    console.error("API ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message
     });
   }
 };

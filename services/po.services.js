@@ -48,7 +48,6 @@ exports.getPOWaitPrepare = async () => {
   return result.recordset;
 };
 
-
 exports.getPOWaitApprove = async (userNo) => {
   const pool = await poolPromise;
   const result = await pool
@@ -58,7 +57,6 @@ exports.getPOWaitApprove = async (userNo) => {
 
   return result.recordset;
 };
-
 
 exports.poApproval = async (data) => {
   const pool = await poolPromise;
@@ -101,6 +99,7 @@ exports.poApproval = async (data) => {
     throw err;
   }
 };
+
 exports.getPOWaitApproveDetail = async (userNo) => {
   const pool = await poolPromise;
   const result = await pool
@@ -110,3 +109,23 @@ exports.getPOWaitApproveDetail = async (userNo) => {
 
   return result.recordset;
 };
+
+exports.CreatePOApproval = async (data) => {
+  const pool = await poolPromise;
+
+  try {
+    const result = await pool.request()
+      .input("json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+      .execute("zsp_CreatePOApproval");
+
+    return {
+      status: result.recordsets[0][0], 
+      data: result.recordsets[1] || []
+    };
+
+  } catch (error) {
+    console.error("SERVICE ERROR:", error);
+    throw error;
+  }
+};
+
