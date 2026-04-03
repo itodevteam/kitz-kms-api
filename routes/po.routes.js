@@ -12,7 +12,7 @@ router.post("/waitapprove", poController.getPOWaitApprove);
 router.post("/waitapprovedetail", poController.getPOWaitApproveDetail);
 router.post("/createapproval", poController.createPOApproval);
 router.post("/updateapproval", poController.updatePOApproval);
-router.post("/approval", poController.poApproval);
+router.post("/approval", poController.poApprovalConfirm);
 
 
 module.exports = router;

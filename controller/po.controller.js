@@ -204,7 +204,7 @@ exports.updatePOApproval = async (req, res) => {
   }
 };
 
-exports.poApproval = async (req, res) => {
+exports.poApprovalConfirm = async (req, res) => {
   try {
     const { payload } = req.body;
 
@@ -215,7 +215,7 @@ exports.poApproval = async (req, res) => {
       });
     }
 
-    const result = await poService.poApproval(payload);
+    const result = await poService.poApprovalConfirm(payload);
 
     res.json({
       success: result.success > 0,

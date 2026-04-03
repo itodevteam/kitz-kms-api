@@ -98,7 +98,7 @@ exports.updatePOApproval = async (data, createBy) => {
   };
 };
 
-exports.poApproval = async (data) => {
+exports.poApprovalConfirm = async (data) => {
   const pool = await poolPromise;
   const transaction = new sql.Transaction(pool);
 
@@ -115,7 +115,7 @@ exports.poApproval = async (data) => {
           .input("Action", sql.NVarChar, row.Action)
           .input("Remarks", sql.NVarChar, row.Remarks || null)
           .input("ApproveBy", sql.NVarChar, row.ApproveBy)
-          .execute("zsp_POApprove");
+          .execute("zsp_POApprovalConfirm");
 
         success++;
       } catch (err) {
