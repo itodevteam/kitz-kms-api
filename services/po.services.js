@@ -58,6 +58,46 @@ exports.getPOWaitApprove = async (userNo) => {
   return result.recordset;
 };
 
+exports.getPOWaitApproveDetail = async (userNo) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("userNo", sql.NVarChar, userNo)
+    .query("EXEC zsp_GetPOWaitApproveDetail @userNo");
+
+  return result.recordset;
+};
+
+exports.createPOApproval = async (data, createBy) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .input("CreateBy", sql.NVarChar(50), createBy)
+    .execute("zsp_CreatePOApproval");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1] 
+  };
+};
+
+exports.updatePOApproval = async (data, createBy) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .input("CreateBy", sql.NVarChar(50), createBy)
+    .execute("zsp_UpdatePOApproval");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
 exports.poApproval = async (data) => {
   const pool = await poolPromise;
   const transaction = new sql.Transaction(pool);
@@ -98,30 +138,5 @@ exports.poApproval = async (data) => {
     await transaction.rollback();
     throw err;
   }
-};
-
-exports.getPOWaitApproveDetail = async (userNo) => {
-  const pool = await poolPromise;
-  const result = await pool
-    .request()
-    .input("userNo", sql.NVarChar, userNo)
-    .query("EXEC zsp_GetPOWaitApproveDetail @userNo");
-
-  return result.recordset;
-};
-
-exports.createPOApproval = async (data, createBy) => {
-  const pool = await poolPromise;
-
-  const result = await pool
-    .request()
-    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .input("CreateBy", sql.NVarChar(50), createBy)
-    .execute("zsp_CreatePOApproval");
-
-  return {
-    info: result.recordsets[0],   // message
-    data: result.recordsets[1]    // data จริง
-  };
 };
 

@@ -134,37 +134,6 @@ exports.getPOWaitApprove = async (req, res) => {
   }
 };
 
-exports.poApproval = async (req, res) => {
-  try {
-    const { payload } = req.body;
-
-    if (!payload || !Array.isArray(payload) || payload.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payload format"
-      });
-    }
-
-    const result = await poService.poApproval(payload);
-
-    res.json({
-      success: result.success > 0,
-      message: result.success > 0 ? "Approval successful" : "Approval failed",
-      totalRow: result.total,
-      data: result.failed
-    });
-
-  } catch (error) {
-    console.error("API ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: error.message
-    });
-  }
-};
-
 exports.getPOWaitApproveDetail = async (req, res) => {
   try {
     const { userNo } = req.body; // หรือ req.query
@@ -210,6 +179,58 @@ exports.createPOApproval = async (req, res) => {
     res.status(500).json({
       success: false,
       message: err.message
+    });
+  }
+};
+
+exports.updatePOApproval = async (req, res) => {
+  try {
+    const { data, createBy } = req.body;
+
+    const result = await poService.updatePOApproval(data, createBy);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.poApproval = async (req, res) => {
+  try {
+    const { payload } = req.body;
+
+    if (!payload || !Array.isArray(payload) || payload.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payload format"
+      });
+    }
+
+    const result = await poService.poApproval(payload);
+
+    res.json({
+      success: result.success > 0,
+      message: result.success > 0 ? "Approval successful" : "Approval failed",
+      totalRow: result.total,
+      data: result.failed
+    });
+
+  } catch (error) {
+    console.error("API ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message
     });
   }
 };
