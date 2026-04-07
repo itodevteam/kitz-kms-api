@@ -90,6 +90,9 @@ router.post("/deleteitem", masterController.deleteItem);
 // Keyword Master
 router.post("/setkeyword", masterController.setKeyword);
 
+router.post("/waitapprovedetail", masterController.Setwaitapprovedetail);
+
+
 
 
 module.exports = router;

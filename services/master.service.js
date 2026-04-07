@@ -1398,3 +1398,13 @@ exports.setKeyword = async (flag, cond, languageEn) => {
 
 
 
+exports.Setwaitapprovedetail = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC ope_purchaseorder @flag,@cond");
+
+  return result.recordset;
+};
