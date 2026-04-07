@@ -99,44 +99,16 @@ exports.updatePOApproval = async (data, createBy) => {
 };
 
 exports.poApprovalConfirm = async (data) => {
-  const pool = await poolPromise;
-  const transaction = new sql.Transaction(pool);
+  const pool = await poolPromise; 
 
-  const failed = [];
-  let success = 0;
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POApprovalConfirm");
 
-  try {
-    await transaction.begin();
-
-    for (const row of data) {
-      try {
-        await new sql.Request(transaction)
-          .input("PurOrderNo", sql.NVarChar, row.PurOrderNo)
-          .input("Action", sql.NVarChar, row.Action)
-          .input("Remarks", sql.NVarChar, row.Remarks || null)
-          .input("ApproveBy", sql.NVarChar, row.ApproveBy)
-          .execute("zsp_POApprovalConfirm");
-
-        success++;
-      } catch (err) {
-        failed.push({
-          data: row,
-          error: err.message
-        });
-      }
-    }
-
-    await transaction.commit();
-
-    return {
-      total: data.length,
-      success,
-      failed
-    };
-
-  } catch (err) {
-    await transaction.rollback();
-    throw err;
-  }
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
 };
 

@@ -206,31 +206,21 @@ exports.updatePOApproval = async (req, res) => {
 
 exports.poApprovalConfirm = async (req, res) => {
   try {
-    const { payload } = req.body;
+    const { data } = req.body;
 
-    if (!payload || !Array.isArray(payload) || payload.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payload format"
-      });
-    }
-
-    const result = await poService.poApprovalConfirm(payload);
+    const result = await poService.poApprovalConfirm(data);
 
     res.json({
-      success: result.success > 0,
-      message: result.success > 0 ? "Approval successful" : "Approval failed",
-      totalRow: result.total,
-      data: result.failed
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
     });
 
-  } catch (error) {
-    console.error("API ERROR:", error);
-
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
-      error: error.message
+      message: err.message
     });
   }
 };
