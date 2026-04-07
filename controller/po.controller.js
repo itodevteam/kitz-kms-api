@@ -224,3 +224,29 @@ exports.poApprovalConfirm = async (req, res) => {
     });
   }
 };
+// Preparation
+exports.deleteParation = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        message: "data must be array"
+      });
+    }
+
+    await poService.deleteParation(data);
+
+    res.status(200).json({
+      success: true,
+      message: "Delete PO paration data completed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};

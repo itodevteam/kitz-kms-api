@@ -112,3 +112,37 @@ exports.poApprovalConfirm = async (data) => {
   };
 };
 
+// Preparation
+exports.deleteParation = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("ope_purchaseorder");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
