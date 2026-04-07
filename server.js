@@ -26,12 +26,14 @@ app.use((req, res, next) => {
 const AuthRoutes = require('./routes/auth.routes');
 const MasterRoutes = require("./routes/master.routes");
 const PORoutes = require("./routes/po.routes");
+const VendorRoutes = require('./routes/vendor.routes');
 const DashboardRoutes = require('./routes/dashboard.routes')(io);
 
 // API Routes
 app.use('/api/auth', AuthRoutes);
 app.use("/api/master", MasterRoutes);
 app.use("/api/po", PORoutes);
+app.use("/api/vendor", VendorRoutes);
 app.use("/api/dashboard", DashboardRoutes);
 
 app.get('/', (req, res) => {

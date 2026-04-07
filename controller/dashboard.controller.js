@@ -1,4 +1,4 @@
-const dashboardService = require("../services/dashboard.service");
+const dashboardService = require("../services/dashboard.services");
 
 exports.getWaitingData = (io) => {
   return async (req, res) => {
