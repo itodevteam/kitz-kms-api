@@ -134,34 +134,6 @@ exports.getPOWaitApprove = async (req, res) => {
   }
 };
 
-exports.getPOWaitApproveDetail = async (req, res) => {
-  try {
-    const { userNo } = req.body; // หรือ req.query
-
-    const data = await poService.getPOWaitApproveDetail(userNo);
-
-    if (!data || data.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No PO waiting approve"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "PO Waiting Approve",
-      data: data
-    });
-
-  } catch (err) {
-    console.error("API ERROR:", err);
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
-
 exports.createPOApproval = async (req, res) => {
   try {
     const { data, createBy } = req.body;
@@ -261,6 +233,26 @@ exports.Setwaitapprovedetail = async (req, res) => {
     res.json({
       success: true,
       message: "Select wait approve detail data completed",
+      data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+exports.Setapprovedetail = async (req, res) => {
+  try {
+    const { flag, cond } = req.body;
+
+    const data = await poService.Setapprovedetail(flag, cond);
+
+    res.json({
+      success: true,
+      message: "Select approve detail data completed",
       data: data
     });
 

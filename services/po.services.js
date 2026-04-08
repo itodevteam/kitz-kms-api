@@ -58,16 +58,6 @@ exports.getPOWaitApprove = async (userNo) => {
   return result.recordset;
 };
 
-exports.getPOWaitApproveDetail = async (userNo) => {
-  const pool = await poolPromise;
-  const result = await pool
-    .request()
-    .input("userNo", sql.NVarChar, userNo)
-    .query("EXEC zsp_GetPOWaitApproveDetail @userNo");
-
-  return result.recordset;
-};
-
 exports.createPOApproval = async (data, createBy) => {
   const pool = await poolPromise;
 
@@ -149,6 +139,17 @@ exports.deleteParation = async (data) => {
 
 
 exports.Setwaitapprovedetail = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC ope_purchaseorder @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.Setapprovedetail = async (flag, cond) => {
   const pool = await poolPromise;
   const result = await pool
     .request()
