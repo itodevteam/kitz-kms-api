@@ -14,5 +14,6 @@ router.post("/createapproval", poController.createPOApproval);
 router.post("/updateapproval", poController.updatePOApproval);
 router.post("/approvalconfirm", poController.poApprovalConfirm);
 router.post("/deletepreparation", poController.deleteParation);
+router.post("/waitapprovedetail", poController.Setwaitapprovedetail);
 
 module.exports = router;

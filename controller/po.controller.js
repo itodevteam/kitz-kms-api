@@ -250,3 +250,24 @@ exports.deleteParation = async (req, res) => {
     });
   }
 };
+
+
+exports.Setwaitapprovedetail = async (req, res) => {
+  try {
+    const { flag, cond } = req.body;
+
+    const data = await poService.Setwaitapprovedetail(flag, cond);
+
+    res.json({
+      success: true,
+      message: "Select wait approve detail data completed",
+      data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
