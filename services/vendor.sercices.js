@@ -6,7 +6,7 @@ exports.getSuppWaitConfirm = async (userNo) => {
   const result = await pool
     .request()
     .input("userNo", sql.NVarChar, userNo)
-    .query("EXEC zsp_GetSupplierWaitConfirm @userNo");
+    .query("EXEC zsp_GetVendorWaitConfirm @userNo");
 
   return result.recordset;
 };

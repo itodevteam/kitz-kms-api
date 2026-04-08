@@ -1,4 +1,4 @@
-const masterService = require("../services/master.service");
+const masterService = require("../services/master.services");
 
 // Plant Master
 exports.setPlant = async (req, res) => {
