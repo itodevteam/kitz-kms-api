@@ -59,7 +59,7 @@ exports.poVendorConfirm = async (req, res) => {
 
 exports.getPurOrderMaster = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
 
     const result = await vendorServices.getPurOrderMaster(data);
 
