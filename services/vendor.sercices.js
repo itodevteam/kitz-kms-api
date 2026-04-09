@@ -11,13 +11,13 @@ exports.getVendorWaitConfirm = async (userNo) => {
   return result.recordset;
 };
 
-exports.poVendorConfirm = async (data) => {
+exports.poSendingConfirm = async (data) => {
   const pool = await poolPromise; 
 
   const result = await pool
     .request()
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .execute("zsp_POVendorConfirm");
+    .execute("zsp_POSendingConfirm");
 
   return {
     info: result.recordsets[0],
