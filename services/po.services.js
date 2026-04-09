@@ -60,7 +60,7 @@ exports.getPOWaitApprove = async (userNo) => {
   const result = await pool
     .request()
     .input("userNo", sql.NVarChar, userNo)
-    .query("zsp_GetPOWaitApprove");
+    .query("EXEC zsp_GetPOWaitApprove @userNo");
 
   return result.recordset;
 };
