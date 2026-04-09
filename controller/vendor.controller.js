@@ -16,7 +16,7 @@ exports.poVendorConfirm = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "PO Waiting Confirm",
+      message: "PO Vendor Confirm",
       data: result
     });
 

@@ -10,10 +10,12 @@ exports.poVendorConfirm = async (data) => {
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
     .execute("zsp_POVendorConfirm");
 
-  return {
-    info: result.recordsets[0],
-    data: result.recordsets[1]
-  };
+    return result.recordsets
+
+  // return {
+  //   info: result.recordsets[0],
+  //   data: result.recordsets[1]
+  // };
 };
 
 exports.getPurOrderMaster = async (data) => {
