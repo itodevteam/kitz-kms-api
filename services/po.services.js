@@ -101,7 +101,6 @@ exports.poApprovalConfirm = async (data) => {
     data: result.recordsets[1]
   };
 };
-
 // Preparation
 exports.deleteParation = async (data) => {
   const pool = await poolPromise;
@@ -137,9 +136,6 @@ exports.deleteParation = async (data) => {
   }
 };
 
-
-
-
 exports.Setpoapprove = async (flag, cond) => {
   const pool = await poolPromise;
   const result = await pool
@@ -149,4 +145,18 @@ exports.Setpoapprove = async (flag, cond) => {
     .query("EXEC ope_purchaseorder @flag,@cond");
 
   return result.recordset;
+};
+
+exports.poSendingConfirm = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POSendingConfirm");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
 };

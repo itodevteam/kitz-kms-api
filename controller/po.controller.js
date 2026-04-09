@@ -223,8 +223,6 @@ exports.deleteParation = async (req, res) => {
   }
 };
 
-
-
 exports.Setpoapprove = async (req, res) => {
   try {
     const { flag, cond } = req.body;
@@ -235,6 +233,26 @@ exports.Setpoapprove = async (req, res) => {
       success: true,
       message: "Select approve detail data completed",
       data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+exports.poSendingConfirm = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const result = await poService.poSendingConfirm(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
     });
 
   } catch (error) {
