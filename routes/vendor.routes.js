@@ -6,5 +6,6 @@ const { route } = require("./po.routes");
 
 router.post("/waitconfirm", vendorController.getVendorWaitConfirm);
 router.post("/confirm", vendorController.poVendorConfirm);
+router.post("/purordermaster", vendorController.getPurOrderMaster);
 
 module.exports = router;

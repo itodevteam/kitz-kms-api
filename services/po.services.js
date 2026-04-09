@@ -24,7 +24,7 @@ exports.getPOMaster = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_GetPOMaster");
+    .query("zsp_GetPOMaster");
   
   return result.recordset;
 };
@@ -34,7 +34,7 @@ exports.getPODetail = async (purOrderNo) => {
   const result = await pool
     .request()
     .input("purOrderNo", sql.NVarChar, purOrderNo)
-    .query("EXEC zsp_GetPODetail @purOrderNo");
+    .query("zsp_GetPODetail @purOrderNo");
 
   return result.recordset;
 };

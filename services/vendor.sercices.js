@@ -25,4 +25,17 @@ exports.poSendingConfirm = async (data) => {
   };
 };
 
+exports.getPurOrderMaster = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("PlantNo", sql.NVarChar(50), data.PlantNo)
+    .input("VendorNo", sql.NVarChar(50), data.VendorNo)
+    .input("OrderStatus", sql.NVarChar(50), data.OrderStatus)
+    .execute("zsp_GetPurOrderMaster");
+
+  return result.recordset;
+};
+
 
