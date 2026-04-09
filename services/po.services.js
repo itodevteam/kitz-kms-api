@@ -138,7 +138,7 @@ exports.deleteParation = async (data) => {
 };
 
 
-exports.Setwaitapprovedetail = async (flag, cond) => {
+exports.Setwaitpoapprove = async (flag, cond) => {
   const pool = await poolPromise;
   const result = await pool
     .request()
@@ -149,7 +149,7 @@ exports.Setwaitapprovedetail = async (flag, cond) => {
   return result.recordset;
 };
 
-exports.Setapprovedetail = async (flag, cond) => {
+exports.Setpoapprove = async (flag, cond) => {
   const pool = await poolPromise;
   const result = await pool
     .request()

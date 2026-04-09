@@ -224,11 +224,11 @@ exports.deleteParation = async (req, res) => {
 };
 
 
-exports.Setwaitapprovedetail = async (req, res) => {
+exports.Setwaitpoapprove = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await poService.Setwaitapprovedetail(flag, cond);
+    const data = await poService.Setwaitpoapprove(flag, cond);
 
     res.json({
       success: true,
@@ -244,11 +244,11 @@ exports.Setwaitapprovedetail = async (req, res) => {
   }
 };
 
-exports.Setapprovedetail = async (req, res) => {
+exports.Setpoapprove = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await poService.Setapprovedetail(flag, cond);
+    const data = await poService.Setpoapprove(flag, cond);
 
     res.json({
       success: true,
