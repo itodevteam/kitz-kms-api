@@ -138,16 +138,7 @@ exports.deleteParation = async (data) => {
 };
 
 
-exports.Setwaitpoapprove = async (flag, cond) => {
-  const pool = await poolPromise;
-  const result = await pool
-    .request()
-    .input("flag", sql.NVarChar, flag)
-    .input("cond", sql.NVarChar, cond)
-    .query("EXEC ope_purchaseorder @flag,@cond");
 
-  return result.recordset;
-};
 
 exports.Setpoapprove = async (flag, cond) => {
   const pool = await poolPromise;
