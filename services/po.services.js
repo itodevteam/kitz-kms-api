@@ -20,21 +20,28 @@ exports.insertPO = async (data) => {
   }
 };
 
-exports.getPOMaster = async () => {
-  const pool = await poolPromise;
+exports.getPurOrderMaster = async (data) => {
+  const pool = await poolPromise; 
+
   const result = await pool
     .request()
-    .query("zsp_GetPOMaster");
-  
+    .input("PlantNo", sql.NVarChar(50), data.PlantNo)
+    .input("VendorNo", sql.NVarChar(50), data.VendorNo)
+    .input("OrderStatus", sql.NVarChar(50), data.OrderStatus)
+    .execute("zsp_GetPurOrderMaster");
+
   return result.recordset;
 };
 
-exports.getPODetail = async (purOrderNo) => {
-  const pool = await poolPromise;
+exports.getPurOrderDetail = async (data) => {
+  const pool = await poolPromise; 
+
   const result = await pool
     .request()
-    .input("purOrderNo", sql.NVarChar, purOrderNo)
-    .query("zsp_GetPODetail @purOrderNo");
+    .input("PlantNo", sql.NVarChar(50), data.PlantNo)
+    .input("PurOrderNo", sql.NVarChar(50), data.PurOrderNo)
+    .input("OrderStatus", sql.NVarChar(50), data.OrderStatus)
+    .execute("zsp_GetPurOrderDetail");
 
   return result.recordset;
 };
@@ -43,7 +50,7 @@ exports.getPOWaitPrepare = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_GetPOWaitPrepare");
+    .query("zsp_GetPOWaitPrepare");
   
   return result.recordset;
 };
@@ -53,7 +60,7 @@ exports.getPOWaitApprove = async (userNo) => {
   const result = await pool
     .request()
     .input("userNo", sql.NVarChar, userNo)
-    .query("EXEC zsp_GetPOWaitApprove @userNo");
+    .query("zsp_GetPOWaitApprove");
 
   return result.recordset;
 };
@@ -101,7 +108,7 @@ exports.poApprovalConfirm = async (data) => {
     data: result.recordsets[1]
   };
 };
-// Preparation
+
 exports.deleteParation = async (data) => {
   const pool = await poolPromise;
   const transaction = new sql.Transaction(pool);
@@ -136,7 +143,7 @@ exports.deleteParation = async (data) => {
   }
 };
 
-exports.Setpoapprove = async (flag, cond) => {
+exports.setPOApprove = async (flag, cond) => {
   const pool = await poolPromise;
   const result = await pool
     .request()

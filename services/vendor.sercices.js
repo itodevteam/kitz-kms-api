@@ -1,23 +1,14 @@
 const e = require("cors");
 const { sql, poolPromise } = require("../config/db");
 
-exports.getVendorWaitConfirm = async (userNo) => {
-  const pool = await poolPromise;
-  const result = await pool
-    .request()
-    .input("userNo", sql.NVarChar, userNo)
-    .query("EXEC zsp_GetVendorWaitConfirm @userNo");
 
-  return result.recordset;
-};
-
-exports.poSendingConfirm = async (data) => {
+exports.poVendorConfirm = async (data) => {
   const pool = await poolPromise; 
 
   const result = await pool
     .request()
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .execute("zsp_POSendingConfirm");
+    .execute("zsp_POVendorConfirm");
 
   return {
     info: result.recordsets[0],

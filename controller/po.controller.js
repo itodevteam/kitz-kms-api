@@ -32,45 +32,51 @@ exports.uploadPO = async (req, res) => {
   }
 };
 
-exports.getPOMaster = async (req, res) => {
+exports.getPurOrderMaster = async (req, res) => {
   try {
-    const result = await poService.getPOMaster(); 
+    const data = req.body.data[0];
 
-    res.json({
-      success: result.status.success === 1,
-      message: result.status.message,
-      totalRow: result.status.totalRow,
-      data: result.data
-    });
+    const result = await poService.getPurOrderMaster(data);
 
-  } catch (error) {
-    console.error("API ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: error.message
-    });
-  }
-};
-
-exports.getPODetail = async (req, res) => {
-  try {
-    const { purOrderNo } = req.body; // หรือ req.query
-
-    const data = await poService.getPODetail(purOrderNo);
-
-    if (!data || data.length === 0) {
+    if (!result || result.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No PO detail"
+        message: "No Purchase Order found"
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "PO detail",
-      data: data
+      message: "Purchase Order Master Data",
+      data: result
+    });
+
+  } catch (err) {
+    console.error("API ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.getPurOrderDetail = async (req, res) => {
+  try {
+    const data = req.body.data[0];
+
+    const result = await poService.getPurOrderDetail(data);
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No Purchase Order found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Purchase Order Master Data",
+      data: result
     });
 
   } catch (err) {
@@ -196,7 +202,7 @@ exports.poApprovalConfirm = async (req, res) => {
     });
   }
 };
-// Preparation
+
 exports.deleteParation = async (req, res) => {
   try {
     const { data } = req.body;
@@ -223,7 +229,7 @@ exports.deleteParation = async (req, res) => {
   }
 };
 
-exports.Setpoapprove = async (req, res) => {
+exports.setPOApprove = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
