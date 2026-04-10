@@ -1,5 +1,5 @@
 const e = require("cors");
-const poService = require("../services/po.services");
+const poServices = require("../services/po.services");
 
 exports.uploadPO = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ exports.uploadPO = async (req, res) => {
       });
     }
 
-    const result = await poService.insertPO(data);
+    const result = await poServices.insertPO(data);
 
     res.json({
       success: result.status.success === 1,
@@ -36,7 +36,7 @@ exports.getPurOrderMaster = async (req, res) => {
   try {
     const data = req.body.data[0];
 
-    const result = await poService.getPurOrderMaster(data);
+    const result = await poServices.getPurOrderMaster(data);
 
     if (!result || result.length === 0) {
       return res.status(404).json({
@@ -64,7 +64,7 @@ exports.getPurOrderDetail = async (req, res) => {
   try {
     const data = req.body.data[0];
 
-    const result = await poService.getPurOrderDetail(data);
+    const result = await poServices.getPurOrderDetail(data);
 
     if (!result || result.length === 0) {
       return res.status(404).json({
@@ -90,7 +90,7 @@ exports.getPurOrderDetail = async (req, res) => {
 
 exports.getPOWaitPrepare = async (req, res) => {
   try {
-    const data = await poService.getPOWaitPrepare();
+    const data = await poServices.getPOWaitPrepare();
 
     if (!data || data.length === 0) {
       return res.status(404).json({
@@ -116,7 +116,7 @@ exports.getPOWaitApprove = async (req, res) => {
   try {
     const { userNo } = req.body; // หรือ req.query
 
-    const data = await poService.getPOWaitApprove(userNo);
+    const data = await poServices.getPOWaitApprove(userNo);
 
     if (!data || data.length === 0) {
       return res.status(404).json({
@@ -144,7 +144,7 @@ exports.createPOApproval = async (req, res) => {
   try {
     const { data, createBy } = req.body;
 
-    const result = await poService.createPOApproval(data, createBy);
+    const result = await poServices.createPOApproval(data, createBy);
 
     res.json({
       success: result.info?.[0]?.success === 1,
@@ -165,7 +165,7 @@ exports.updatePOApproval = async (req, res) => {
   try {
     const { data, createBy } = req.body;
 
-    const result = await poService.updatePOApproval(data, createBy);
+    const result = await poServices.updatePOApproval(data, createBy);
 
     res.json({
       success: result.info?.[0]?.success === 1,
@@ -186,7 +186,7 @@ exports.poApprovalConfirm = async (req, res) => {
   try {
     const { data } = req.body;
 
-    const result = await poService.poApprovalConfirm(data);
+    const result = await poServices.poApprovalConfirm(data);
 
     res.json({
       success: result.info?.[0]?.success === 1,
