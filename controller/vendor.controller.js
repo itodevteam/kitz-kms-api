@@ -3,28 +3,20 @@ const vendorServices = require("../services/vendor.sercices");
 
 exports.poVendorConfirm = async (req, res) => {
   try {
-    const data = req.body.data[0];
+    const { data } = req.body;
 
-    const result = await vendorServices.poVendorConfirm(data);
+   const result = await vendorServices.poVendorConfirm(data);
 
-    if (!result || result.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No PO Vendor confirm"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "PO Vendor Confirmed",
-      data: result
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
     });
 
-  } catch (err) {
-    console.error("API ERROR:", err);
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: err.message
+      message: error.message
     });
   }
 };
