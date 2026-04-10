@@ -1387,12 +1387,12 @@ exports.setKeyword = async (flag, cond, languageEn) => {
         .input("flag", sql.NVarChar, flag)
         .input("cond", sql.NVarChar, cond)
         .input("languageen", sql.NVarChar, languageEn)
-        .output("outmessage", sql.NVarChar) // ต้องตรงกับชื่อ OUTPUT parameter
-        .execute("mas_keyword"); // ใช้ execute แทน query
+        .output("outmessage", sql.NVarChar)
+        .execute("mas_keyword"); 
 
     return {
         success: true,
-        message: result.output.outmessage // คืนค่าที่ stored procedure ส่งออกมา
+        message: result.output.outmessage 
     };
 };
 

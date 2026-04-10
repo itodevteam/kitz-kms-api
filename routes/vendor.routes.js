@@ -5,5 +5,7 @@ const verifyToken = require('../middleware/verifyToken');
 const { route } = require("./po.routes");
 
 router.post("/confirm", vendorController.poVendorConfirm);
+router.post("/create", vendorController.createDeliveryDetail);
+router.post("/update", vendorController.updateDeliveryDetail);
 
 module.exports = router;

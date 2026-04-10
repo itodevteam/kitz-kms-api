@@ -1,2 +1,63 @@
 const e = require("cors");
-const qcServices = require("../services/qc.services");
+const qcServices = require("../services/receive.services");
+
+exports.getReceiveDetail = async (req, res) => {
+  try {
+    const { deliveryNo } = req.body;
+
+    const result = await qcServices.getReceiveDetail(deliveryNo);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.getItemInspection = async (req, res) => {
+  try {
+    const data = req.body;
+    const result = await qcServices.getItemInspection(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.confirmReceive = async (req, res) => {
+  try {
+    const data = req.body;
+    const result = await qcServices.confirmReceive(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};

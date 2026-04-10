@@ -1,27 +1,13 @@
 const e = require("cors");
 const { sql, poolPromise } = require("../config/db");
 
-exports.getReceiveDetail = async (deliveryNo) => {
-  const pool = await poolPromise; 
-
-  const result = await pool
-    .request()
-    .input("deliveryNo", sql.NVarChar, deliveryNo)
-    .execute("zsp_GetReceiveDetail");
-
-  return {
-    info: result.recordsets[0],
-    data: result.recordsets[1]
-  };
-};
-
-exports.getItemInspection = async (data) => {
+exports.getReceiveData = async (data) => {
   const pool = await poolPromise;
 
   const result = await pool
     .request()
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .execute("zsp_GetItemInspection");
+    .execute("zsp_GetReceiveData");
 
   return {
     info: result.recordsets[0],
@@ -29,18 +15,16 @@ exports.getItemInspection = async (data) => {
   };
 };
 
-exports.confirmReceive = async (data) => {
+exports.getBacklogData = async (data) => {
   const pool = await poolPromise;
 
   const result = await pool
     .request()
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .execute("zsp_ConfirmReceive");
+    .execute("zsp_GetBacklogData");
 
   return {
     info: result.recordsets[0],
     data: result.recordsets[1]
   };
 };
-
-

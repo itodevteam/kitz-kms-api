@@ -14,5 +14,7 @@ router.post("/approvalconfirm", poController.poApprovalConfirm);
 router.post("/deletepreparation", poController.deleteParation);
 router.post("/poapprove", poController.setPOApprove);
 router.post("/sendingconfirm", poController.poSendingConfirm);
+router.post("/reject", poController.poApprovalReject);
+router.post("/renew", poController.poApprovalRenew);
 
 module.exports = router;

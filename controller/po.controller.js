@@ -268,3 +268,45 @@ exports.poSendingConfirm = async (req, res) => {
     });
   }
 };
+
+exports.poApprovalReject = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const result = await poService.poApprovalReject(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.poApprovalRenew = async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const result = await poService.poApprovalRenew(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
