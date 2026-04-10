@@ -29,30 +29,3 @@ exports.poVendorConfirm = async (req, res) => {
   }
 };
 
-exports.getPurOrderMaster = async (req, res) => {
-  try {
-    const data = req.body.data[0];
-
-    const result = await vendorServices.getPurOrderMaster(data);
-
-    if (!result || result.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No Purchase Order found"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Purchase Order Master Data",
-      data: result
-    });
-
-  } catch (err) {
-    console.error("API ERROR:", err);
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
