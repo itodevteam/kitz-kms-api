@@ -31,6 +31,11 @@ const ReceiveRoutes = require('./routes/receive.routes');
 const InvenRoutes = require('./routes/inven.routes');
 const DashboardRoutes = require('./routes/dashboard.routes')(io);
 
+// Middleware
+const loggerMiddleware = require("./middleware/logger");
+const errorLogger = require("./middleware/errorlogger");
+
+app.use(loggerMiddleware);
 // API Routes
 app.use('/api/auth', AuthRoutes);
 app.use("/api/master", MasterRoutes);
@@ -40,13 +45,15 @@ app.use("/api/receive", ReceiveRoutes);
 app.use("/api/inven", InvenRoutes);
 app.use("/api/dashboard", DashboardRoutes); 
 
-app.get('/', (req, res) => {
-  res.send('Hello Node JS');
-});
+app.use(errorLogger);
 
 app.use((err, req, res, next) => {
   console.error('🔥 ERROR:', err.stack);
   res.status(500).json({ message: err.message });
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello Node JS');
 });
 
 // API Port

@@ -1,104 +1,48 @@
-const fs = require('fs');
-const path = require('path');
+const { sql, poolPromise } = require("../config/db");
 
-'use strict';
+module.exports = function (req, res, next) {
+  const start = Date.now();
 
+    let responseBody; // 🔥 เก็บ response
 
-const LOG_DIR = process.env.LOG_DIR || path.join(process.cwd(), 'logs');
-const LOG_FILE = path.join(LOG_DIR, 'app.log');
+  // ✅ ดัก res.json
+  const originalJson = res.json;
+  res.json = function (body) {
+    responseBody = body;
+    return originalJson.call(this, body);
+  };
 
-// ensure log directory exists
-try { fs.mkdirSync(LOG_DIR, { recursive: true }); } catch (e) { /* ignore */ }
+  // ✅ ดัก res.send
+  const originalSend = res.send;
+  res.send = function (body) {
+    responseBody = body;
+    return originalSend.call(this, body);
+  };
 
-function timestamp() {
-    return new Date().toISOString();
-}
+  res.on("finish", async () => {
+    try {
+      const pool = await poolPromise;
 
-function safeStringify(obj, depth = 3) {
-    const cache = new Set();
-    return JSON.stringify(obj, function (key, value) {
-        if (typeof value === 'object' && value !== null) {
-            if (cache.has(value)) return '[Circular]';
-            cache.add(value);
-        }
-        // avoid dumping very deep structures
-        if (depth <= 0 && typeof value === 'object' && value !== null) return '[Object]';
-        return value;
-    }, 2);
-}
+      const logData = [{
+        LogType: "API",
+        Module: req.baseUrl,
+        Actions: req.path,
+        ReqData: JSON.stringify(req.body),
+        ResData: JSON.stringify(responseBody),
+        Status: res.statusCode === 200 ? "SUCCESS" : "FAIL",
+        Message: `Response time ${Date.now() - start} ms`,
+        IPAddress: req.ip,
+        CreateBy: "system"
+      }];
 
-function appendLog(line) {
-    const entry = `${timestamp()} ${line}\n`;
-    // best-effort append to file (non-blocking)
-    fs.appendFile(LOG_FILE, entry, err => { /* ignore write errors */ });
-    // also mirror to console
-    if (line.startsWith('[ERROR]')) console.error(entry);
-    else if (line.startsWith('[WARN]')) console.warn(entry);
-    else console.log(entry);
-}
+      await pool.request()
+        .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(logData))
+        .execute("zsp_InsertTracerLog");
 
-function levelTag(statusOrLevel) {
-    if (typeof statusOrLevel === 'number') {
-        if (statusOrLevel >= 500) return '[ERROR]';
-        if (statusOrLevel >= 400) return '[WARN]';
-        return '[INFO]';
+    } catch (err) {
+      console.error("Log error:", err.message);
     }
-    const lvl = String(statusOrLevel).toUpperCase();
-    return `[${lvl}]`;
-}
+  });
 
-// Express request logger middleware
-function requestLogger(req, res, next) {
-    const start = process.hrtime();
-    const { method, originalUrl } = req;
-    const reqMeta = {
-        params: req.params,
-        query: req.query,
-    };
-
-    // capture request body safely (may be undefined)
-    let bodySnapshot;
-    try { bodySnapshot = req.body !== undefined ? req.body : undefined; } catch (e) { bodySnapshot = '[unavailable]'; }
-
-    res.on('finish', () => {
-        const diff = process.hrtime(start);
-        const ms = Math.round((diff[0] * 1e3) + (diff[1] / 1e6));
-        const tag = levelTag(res.statusCode);
-        const msg = `${tag} ${method} ${originalUrl} ${res.statusCode} ${ms}ms params=${safeStringify(reqMeta.params)} query=${safeStringify(reqMeta.query)} body=${safeStringify(bodySnapshot)}`;
-        appendLog(msg);
-    });
-
-    // in case of abort (client disconnect)
-    res.on('close', () => {
-        if (!res.finished) {
-            const diff = process.hrtime(start);
-            const ms = Math.round((diff[0] * 1e3) + (diff[1] / 1e6));
-            appendLog(`[WARN] ${method} ${originalUrl} aborted after ${ms}ms`);
-        }
-    });
-
-    next();
-}
-
-// Express error-logging middleware (must come after routes)
-// usage: app.use(errorLogger);
-function errorLogger(err, req, res, next) {
-    const { method, originalUrl } = req || {};
-    const message = `[ERROR] ${method || '-'} ${originalUrl || '-'} ${err && (err.stack || err.message)}`;
-    appendLog(message);
-    // pass through to default handlers
-    next(err);
-}
-
-// simple programmatic logger
-function log(level, ...args) {
-    const tag = levelTag(level);
-    const msg = args.map(a => (typeof a === 'string' ? a : safeStringify(a))).join(' ');
-    appendLog(`${tag} ${msg}`);
-}
-
-module.exports = {
-    requestLogger,
-    errorLogger,
-    log,
+  next();
 };
