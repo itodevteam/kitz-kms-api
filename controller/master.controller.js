@@ -1,11 +1,11 @@
-const masterService = require("../services/master.service");
+const masterServices = require("../services/master.services");
 
 // Plant Master
 exports.setPlant = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setPlant(flag, cond);
+    const data = await masterServices.setPlant(flag, cond);
 
     res.json({
       success: true,
@@ -31,7 +31,7 @@ exports.savePlant = async (req, res) => {
       });
     }
 
-    await masterService.savePlant(data);
+    await masterServices.savePlant(data);
 
     res.status(200).json({
       success: true,
@@ -56,7 +56,7 @@ exports.deletePlant = async (req, res) => {
       });
     }
 
-    await masterService.deletePlant(data);
+    await masterServices.deletePlant(data);
 
     res.status(200).json({
       success: true,
@@ -77,7 +77,7 @@ exports.setCategory = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setCategory(flag, cond);
+    const data = await masterServices.setCategory(flag, cond);
 
     res.json({
       success: true,
@@ -103,7 +103,7 @@ exports.saveCategory = async (req, res) => {
       });
     }
 
-    await masterService.saveCategory(data);
+    await masterServices.saveCategory(data);
 
     res.status(200).json({
       success: true,
@@ -128,7 +128,7 @@ exports.deleteCategory = async (req, res) => {
       });
     }
 
-    await masterService.deleteCategory(data);
+    await masterServices.deleteCategory(data);
 
     res.status(200).json({
       success: true,
@@ -149,7 +149,7 @@ exports.setUnit = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setUnit(flag, cond);
+    const data = await masterServices.setUnit(flag, cond);
 
     res.json({
       success: true,
@@ -175,7 +175,7 @@ exports.saveUnit = async (req, res) => {
       });
     }
 
-    await masterService.saveUnit(data);
+    await masterServices.saveUnit(data);
 
     res.status(200).json({
       success: true,
@@ -200,7 +200,7 @@ exports.deleteUnit = async (req, res) => {
       });
     }
 
-    await masterService.deleteUnit(data);
+    await masterServices.deleteUnit(data);
 
     res.status(200).json({
       success: true,
@@ -222,7 +222,7 @@ exports.setLanguage = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setLanguage(flag, cond);
+    const data = await masterServices.setLanguage(flag, cond);
 
     res.json({
       success: true,
@@ -248,7 +248,7 @@ exports.saveLanguage = async (req, res) => {
       });
     }
 
-    await masterService.saveLanguage(data);
+    await masterServices.saveLanguage(data);
 
     res.status(200).json({
       success: true,
@@ -273,7 +273,7 @@ exports.deleteLanguage = async (req, res) => {
       });
     }
 
-    await masterService.deleteLanguage(data);
+    await masterServices.deleteLanguage(data);
 
     res.status(200).json({
       success: true,
@@ -293,7 +293,7 @@ exports.setEmployee = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setEmployee(flag, cond);
+    const data = await masterServices.setEmployee(flag, cond);
 
     res.json({
       success: true,
@@ -319,7 +319,7 @@ exports.saveEmployee = async (req, res) => {
       });
     }
 
-    await masterService.saveEmployee(data);
+    await masterServices.saveEmployee(data);
 
     res.status(200).json({
       success: true,
@@ -344,7 +344,7 @@ exports.deleteEmployee = async (req, res) => {
       });
     }
 
-    await masterService.deleteEmployee(data);
+    await masterServices.deleteEmployee(data);
 
     res.status(200).json({
       success: true,
@@ -365,7 +365,7 @@ exports.setCurrency = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setCurrency(flag, cond);
+    const data = await masterServices.setCurrency(flag, cond);
 
     res.json({
       success: true,
@@ -391,7 +391,7 @@ exports.saveCurrency = async (req, res) => {
       });
     }
 
-    await masterService.saveCurrency(data);
+    await masterServices.saveCurrency(data);
 
     res.status(200).json({
       success: true,
@@ -416,7 +416,7 @@ exports.deleteCurrency = async (req, res) => {
       });
     }
 
-    await masterService.deleteCurrency(data);
+    await masterServices.deleteCurrency(data);
 
     res.status(200).json({
       success: true,
@@ -437,7 +437,7 @@ exports.setDepartment = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setDepartment(flag, cond);
+    const data = await masterServices.setDepartment(flag, cond);
 
     res.json({
       success: true,
@@ -463,7 +463,7 @@ exports.saveDepartment = async (req, res) => {
       });
     }
 
-    await masterService.saveDepartment(data);
+    await masterServices.saveDepartment(data);
 
     res.status(200).json({
       success: true,
@@ -488,7 +488,7 @@ exports.deleteDepartment = async (req, res) => {
       });
     }
 
-    await masterService.deleteDepartment(data);
+    await masterServices.deleteDepartment(data);
 
     res.status(200).json({
       success: true,
@@ -510,7 +510,7 @@ exports.setMatrix = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setMatrix(flag, cond);
+    const data = await masterServices.setMatrix(flag, cond);
 
     res.json({
       success: true,
@@ -536,7 +536,7 @@ exports.saveMatrix = async (req, res) => {
       });
     }
 
-    await masterService.saveMatrix(data);
+    await masterServices.saveMatrix(data);
 
     res.status(200).json({
       success: true,
@@ -561,7 +561,7 @@ exports.deleteMatrix = async (req, res) => {
       });
     }
 
-    await masterService.deleteMatrix(data);
+    await masterServices.deleteMatrix(data);
 
     res.status(200).json({
       success: true,
@@ -582,7 +582,7 @@ exports.setPaymentterm = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setPaymentterm(flag, cond);
+    const data = await masterServices.setPaymentterm(flag, cond);
 
     res.json({
       success: true,
@@ -608,7 +608,7 @@ exports.savePaymentterm = async (req, res) => {
       });
     }
 
-    await masterService.savePaymentterm(data);
+    await masterServices.savePaymentterm(data);
 
     res.status(200).json({
       success: true,
@@ -633,7 +633,7 @@ exports.deletePaymentterm = async (req, res) => {
       });
     }
 
-    await masterService.deletePaymentterm(data);
+    await masterServices.deletePaymentterm(data);
 
     res.status(200).json({
       success: true,
@@ -653,7 +653,7 @@ exports.setPosition = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setPosition(flag, cond);
+    const data = await masterServices.setPosition(flag, cond);
 
     res.json({
       success: true,
@@ -679,7 +679,7 @@ exports.savePosition = async (req, res) => {
       });
     }
 
-    await masterService.savePosition(data);
+    await masterServices.savePosition(data);
 
     res.status(200).json({
       success: true,
@@ -704,7 +704,7 @@ exports.deletePosition = async (req, res) => {
       });
     }
 
-    await masterService.deletePosition(data);
+    await masterServices.deletePosition(data);
 
     res.status(200).json({
       success: true,
@@ -724,7 +724,7 @@ exports.setPositionpattern = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setPositionpattern(flag, cond);
+    const data = await masterServices.setPositionpattern(flag, cond);
 
     res.json({
       success: true,
@@ -750,7 +750,7 @@ exports.savePositionpattern = async (req, res) => {
       });
     }
 
-    await masterService.savePositionpattern(data);
+    await masterServices.savePositionpattern(data);
 
     res.status(200).json({
       success: true,
@@ -775,7 +775,7 @@ exports.deletePositionpattern = async (req, res) => {
       });
     }
 
-    await masterService.deletePositionpattern(data);
+    await masterServices.deletePositionpattern(data);
 
     res.status(200).json({
       success: true,
@@ -796,7 +796,7 @@ exports.setSex = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setSex(flag, cond);
+    const data = await masterServices.setSex(flag, cond);
 
     res.json({
       success: true,
@@ -822,7 +822,7 @@ exports.saveSex = async (req, res) => {
       });
     }
 
-    await masterService.saveSex(data);
+    await masterServices.saveSex(data);
 
     res.status(200).json({
       success: true,
@@ -847,7 +847,7 @@ exports.deleteSex = async (req, res) => {
       });
     }
 
-    await masterService.deleteSex(data);
+    await masterServices.deleteSex(data);
 
     res.status(200).json({
       success: true,
@@ -867,7 +867,7 @@ exports.setStatus = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setStatus(flag, cond);
+    const data = await masterServices.setStatus(flag, cond);
 
     res.json({
       success: true,
@@ -893,7 +893,7 @@ exports.saveStatus = async (req, res) => {
       });
     }
 
-    await masterService.saveStatus(data);
+    await masterServices.saveStatus(data);
 
     res.status(200).json({
       success: true,
@@ -918,7 +918,7 @@ exports.deleteStatus = async (req, res) => {
       });
     }
 
-    await masterService.deleteStatus(data);
+    await masterServices.deleteStatus(data);
 
     res.status(200).json({
       success: true,
@@ -938,7 +938,7 @@ exports.setTitlename = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setTitlename(flag, cond);
+    const data = await masterServices.setTitlename(flag, cond);
 
     res.json({
       success: true,
@@ -964,7 +964,7 @@ exports.saveTitlename = async (req, res) => {
       });
     }
 
-    await masterService.saveTitlename(data);
+    await masterServices.saveTitlename(data);
 
     res.status(200).json({
       success: true,
@@ -989,7 +989,7 @@ exports.deleteTitlename = async (req, res) => {
       });
     }
 
-    await masterService.deleteTitlename(data);
+    await masterServices.deleteTitlename(data);
 
     res.status(200).json({
       success: true,
@@ -1009,7 +1009,7 @@ exports.setVendor = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setVendor(flag, cond);
+    const data = await masterServices.setVendor(flag, cond);
 
     res.json({
       success: true,
@@ -1035,7 +1035,7 @@ exports.saveVendor = async (req, res) => {
       });
     }
 
-    await masterService.saveVendor(data);
+    await masterServices.saveVendor(data);
 
     res.status(200).json({
       success: true,
@@ -1060,7 +1060,7 @@ exports.deleteVendor = async (req, res) => {
       });
     }
 
-    await masterService.deleteVendor(data);
+    await masterServices.deleteVendor(data);
 
     res.status(200).json({
       success: true,
@@ -1081,7 +1081,7 @@ exports.setItem = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await masterService.setItem(flag, cond);
+    const data = await masterServices.setItem(flag, cond);
 
     res.json({
       success: true,
@@ -1107,7 +1107,7 @@ exports.saveItem = async (req, res) => {
       });
     }
 
-    await masterService.saveItem(data);
+    await masterServices.saveItem(data);
 
     res.status(200).json({
       success: true,
@@ -1132,7 +1132,7 @@ exports.deleteItem = async (req, res) => {
       });
     }
 
-    await masterService.deleteItem(data);
+    await masterServices.deleteItem(data);
 
     res.status(200).json({
       success: true,
@@ -1153,7 +1153,7 @@ exports.setKeyword = async (req, res) => {
   try {
     const { flag, cond, languageen } = req.body.data[0]; // ดึงค่าจาก body
 
-    const result = await masterService.setKeyword(flag, cond, languageen);
+    const result = await masterServices.setKeyword(flag, cond, languageen);
 
     res.json({
       success: true,

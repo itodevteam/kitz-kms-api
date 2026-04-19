@@ -1,11 +1,11 @@
-const dashboardService = require("../services/dashboard.service");
+const dashboardServices = require("../services/dashboard.services");
 
 exports.getWaitingData = (io) => {
   return async (req, res) => {
     try {
       const { ownercode } = req.body;
 
-      const data = await dashboardService.getWaitingData(ownercode);
+      const data = await dashboardServices.getWaitingData(ownercode);
 
       if (!data || data.length === 0) {
         return res.status(404).json({ message: "Not found waiting data" });
@@ -25,3 +25,4 @@ exports.getWaitingData = (io) => {
     }
   };
 };
+

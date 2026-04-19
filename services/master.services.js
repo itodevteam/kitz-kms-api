@@ -1060,6 +1060,7 @@ exports.saveStatus = async (data) => {
         .input("cond", sql.NVarChar, row.cond || null)
         .input("statusname", sql.NVarChar, row.statusname || null)
         .input("statustype", sql.NVarChar, row.statustype || null)
+        .input("fontcolor", sql.NVarChar, row.fontcolor || null)
         .input("isactive", sql.Bit, row.isactive ?? null)
         .input("createby", sql.NVarChar, row.createdby || null)
         .input("device", sql.NVarChar, row.device || null)
@@ -1385,12 +1386,12 @@ exports.setKeyword = async (flag, cond, languageEn) => {
         .input("flag", sql.NVarChar, flag)
         .input("cond", sql.NVarChar, cond)
         .input("languageen", sql.NVarChar, languageEn)
-        .output("outmessage", sql.NVarChar) // ต้องตรงกับชื่อ OUTPUT parameter
-        .execute("mas_keyword"); // ใช้ execute แทน query
+        .output("outmessage", sql.NVarChar)
+        .execute("mas_keyword"); 
 
     return {
         success: true,
-        message: result.output.outmessage // คืนค่าที่ stored procedure ส่งออกมา
+        message: result.output.outmessage 
     };
 };
 

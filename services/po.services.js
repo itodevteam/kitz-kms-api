@@ -20,12 +20,29 @@ exports.insertPO = async (data) => {
   }
 };
 
-exports.getPOMaster = async () => {
-  const pool = await poolPromise;
+exports.getPurOrderMaster = async (data) => {
+  const pool = await poolPromise; 
+
   const result = await pool
     .request()
-    .query("EXEC zsp_GetPOMaster");
-  
+    .input("PlantNo", sql.NVarChar(50), data.PlantNo)
+    .input("VendorNo", sql.NVarChar(50), data.VendorNo)
+    .input("OrderStatus", sql.NVarChar(50), data.OrderStatus)
+    .execute("zsp_GetPurOrderMaster");
+
+  return result.recordset;
+};
+
+exports.getPurOrderDetail = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("PlantNo", sql.NVarChar(50), data.PlantNo)
+    .input("PurOrderNo", sql.NVarChar(50), data.PurOrderNo)
+    .input("OrderStatus", sql.NVarChar(50), data.OrderStatus)
+    .execute("zsp_GetPurOrderDetail");
+
   return result.recordset;
 };
 
@@ -33,11 +50,10 @@ exports.getPOWaitPrepare = async () => {
   const pool = await poolPromise;
   const result = await pool
     .request()
-    .query("EXEC zsp_GetPOWaitPrepare");
+    .query("zsp_GetPOWaitPrepare");
   
   return result.recordset;
 };
-
 
 exports.getPOWaitApprove = async (userNo) => {
   const pool = await poolPromise;
@@ -49,49 +65,96 @@ exports.getPOWaitApprove = async (userNo) => {
   return result.recordset;
 };
 
-exports.poApproval = async (data) => {
+exports.createPOApproval = async (data, createBy) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .input("CreateBy", sql.NVarChar(50), createBy)
+    .execute("zsp_CreatePOApproval");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1] 
+  };
+};
+
+exports.updatePOApproval = async (data, createBy) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .input("CreateBy", sql.NVarChar(50), createBy)
+    .execute("zsp_UpdatePOApproval");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
+exports.poApprovalConfirm = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POApprovalConfirm");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
+exports.deleteParation = async (data) => {
   const pool = await poolPromise;
   const transaction = new sql.Transaction(pool);
-
-  const failed = [];
-  let success = 0;
 
   try {
     await transaction.begin();
 
     for (const row of data) {
-      try {
-        await new sql.Request(transaction)
-          .input("PurOrderNo", sql.NVarChar, row.PurOrderNo)
-          .input("Action", sql.NVarChar, row.Action)
-          .input("Remarks", sql.NVarChar, row.Remarks || null)
-          .input("ApproveBy", sql.NVarChar, row.ApproveBy)
-          .execute("zsp_POApprove");
-
-        success++;
-      } catch (err) {
-        failed.push({
-          data: row,
-          error: err.message
-        });
-      }
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("ope_purchaseorder");
     }
 
     await transaction.commit();
 
     return {
-      total: data.length,
-      success,
-      failed
+      success: true,
+      message: "Transaction completed"
     };
 
   } catch (err) {
-    await transaction.rollback();
-    throw err;
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
   }
 };
 
+exports.setPOApprove = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC ope_purchaseorder @flag,@cond");
 
+  return result.recordset;
+};
+
+<<<<<<< HEAD
 <<<<<<< HEAD
     if (!transaction._aborted) {
       await transaction.rollback();
@@ -101,4 +164,47 @@ exports.poApproval = async (data) => {
   }
 };
 =======
+>>>>>>> kitz-kms-api-dev
+=======
+exports.poSendingConfirm = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POSendingConfirm");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
+exports.poApprovalReject = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POApprovalReject");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
+exports.poApprovalRenew = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_POApprovalRenew");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
 >>>>>>> kitz-kms-api-dev
