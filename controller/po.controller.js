@@ -233,7 +233,7 @@ exports.setPOApprove = async (req, res) => {
   try {
     const { flag, cond } = req.body;
 
-    const data = await poService.setPOApprove(flag, cond);
+    const data = await poServices.setPOApprove(flag, cond);
 
     res.json({
       success: true,
