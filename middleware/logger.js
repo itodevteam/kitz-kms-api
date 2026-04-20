@@ -3,7 +3,7 @@ const { sql, poolPromise } = require("../config/db");
 module.exports = function (req, res, next) {
   const start = Date.now();
 
-    let responseBody; // 🔥 เก็บ response
+  let responseBody; // 🔥 เก็บ response
 
   // ✅ ดัก res.json
   const originalJson = res.json;
@@ -27,8 +27,8 @@ module.exports = function (req, res, next) {
         LogType: "API",
         Module: req.baseUrl,
         Actions: req.path,
-        ReqData: JSON.stringify(req.body),
-        ResData: JSON.stringify(responseBody),
+        ReqData: JSON.stringify(req.body)?.substring(0, 4000),
+        ResData: JSON.stringify(responseBody)?.substring(0, 4000),
         Status: res.statusCode === 200 ? "SUCCESS" : "FAIL",
         Message: `Response time ${Date.now() - start} ms`,
         IPAddress: req.ip,

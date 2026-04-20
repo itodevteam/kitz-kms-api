@@ -4,6 +4,22 @@ module.exports = async (err, req, res, next) => {
   try {
     const pool = await poolPromise;
 
+    let responseBody; // 🔥 เก็บ response
+
+    // ✅ ดัก res.json
+    const originalJson = res.json;
+    res.json = function (body) {
+      responseBody = body;
+      return originalJson.call(this, body);
+    };
+
+    // ✅ ดัก res.send
+    const originalSend = res.send;
+    res.send = function (body) {
+      responseBody = body;
+      return originalSend.call(this, body);
+    };
+
     const logData = [{
       LogType: "ERROR",
       Module: req.baseUrl,
@@ -11,7 +27,7 @@ module.exports = async (err, req, res, next) => {
       OrderNo: req.body?.OrderNo || null,
       OrderType: req.body?.OrderType || null,
       ReqData: JSON.stringify(req.body)?.substring(0, 4000),
-      ResData: null,
+      ResData: JSON.stringify(responseBody)?.substring(0, 4000),
       Status: "FAIL",
       Message: err.message,
       IPAddress: req.ip,
