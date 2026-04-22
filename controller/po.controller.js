@@ -213,7 +213,7 @@ exports.deleteParation = async (req, res) => {
       });
     }
 
-    await poService.deleteParation(data);
+    await poServices.deleteParation(data);
 
     res.status(200).json({
       success: true,
@@ -253,7 +253,7 @@ exports.poSendingConfirm = async (req, res) => {
   try {
     const { data } = req.body;
 
-    const result = await poService.poSendingConfirm(data);
+    const result = await poServices.poSendingConfirm(data);
 
     res.json({
       success: result.info?.[0]?.success === 1,
@@ -273,7 +273,7 @@ exports.poApprovalReject = async (req, res) => {
   try {
     const { data } = req.body;
 
-    const result = await poService.poApprovalReject(data);
+    const result = await poServices.poApprovalReject(data);
 
     res.json({
       success: result.info?.[0]?.success === 1,
@@ -294,7 +294,7 @@ exports.poApprovalRenew = async (req, res) => {
   try {
     const { data } = req.body;
 
-    const result = await poService.poApprovalRenew(data);
+    const result = await poServices.poApprovalRenew(data);
 
     res.json({
       success: result.info?.[0]?.success === 1,
