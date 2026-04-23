@@ -37,9 +37,9 @@ exports.getDeliveryDetail = async (req, res) => {
 
 exports.getReceiveDetail = async (req, res) => {
   try {
-    const { deliveryNo } = req.body;
+    const data = req.body;
 
-    const result = await qcServices.getReceiveDetail(deliveryNo);
+    const result = await qcServices.getReceiveDetail(data);
 
     res.json({
       success: result.info?.[0]?.success === 1,
