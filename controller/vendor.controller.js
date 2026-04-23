@@ -23,7 +23,8 @@ exports.poVendorConfirm = async (req, res) => {
 
 exports.createDeliveryDetail = async (req, res) => {
   try {
-    const { data } = req.body;
+    // const { data } = req.body;
+    const data = req.body.data[0];
 
     const result = await vendorServices.createDeliveryDetail(data);
 
