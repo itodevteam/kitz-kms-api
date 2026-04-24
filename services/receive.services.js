@@ -38,7 +38,7 @@ exports.getReceiveDetail = async (data) => {
 
   const result = await pool
     .request()
-    .input("deliveryNo", sql.NVarChar, deliveryNo)
+    .input("deliveryNo", sql.NVarChar, data.deliveryNo)
     .execute("zsp_GetReceiveDetail");
 
   return {
