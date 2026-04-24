@@ -1,23 +1,23 @@
 const dashboardServices = require("../services/dashboard.services");
 
-exports.getWaitingData = (io) => {
+exports.getDeliveryPlan = (io) => {
   return async (req, res) => {
     try {
-      const { ownercode } = req.body;
+      const data  = req.body.data[0];
 
-      const data = await dashboardServices.getWaitingData(ownercode);
+      const deliveryPlan = await dashboardServices.getDeliveryPlan(data);
 
-      if (!data || data.length === 0) {
-        return res.status(404).json({ message: "Not found waiting data" });
+      if (!deliveryPlan || deliveryPlan.length === 0) {
+        return res.status(404).json({ message: "Not found delivery plan" });
       }
 
       // 🔥 realtime dashboard
-      io.emit("dashboard-waiting-data", data);
+      io.emit("dashboard-delivery-plan", deliveryPlan);
 
       res.status(200).json({
         result: "Success",
-        message: "Dashboard Waiting Data",
-        data,
+        message: "Dashboard Delivery Plan Data",
+        data: deliveryPlan,
       });
     } catch (err) {
       console.error(err);

@@ -1,12 +1,13 @@
-const { poolPromise } = require("../config/db");
+const e = require("cors");
+const { sql, poolPromise } = require("../config/db");
 
-exports.getWaitingData = async (ownercode) => {
+exports.getDeliveryPlan = async (data) => {
   const pool = await poolPromise;
 
   const result = await pool
     .request()
-    .input("OwnerCode", sql.NVarChar, ownercode)
-    .execute("zrp_WaitingData");
+    .input("plantNo", sql.NVarChar, data.plantNo)
+    .execute("zsp_GetDeliveryPlan");
 
   return result.recordset;
 }
