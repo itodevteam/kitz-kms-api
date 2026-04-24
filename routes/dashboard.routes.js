@@ -6,6 +6,11 @@ module.exports = function (io) {
   const router = express.Router();
 
   router.post("/deliveryplan",dashboardController.getDeliveryPlan(io));
+  router.post("/podelay",dashboardController.getPODelay(io));
+  router.post("/postatus",dashboardController.getPOStatus(io));
+  router.post("/recentdata",dashboardController.getRecentData(io));
+  router.post("/cardsummary",dashboardController.getCardsSummary(io));
   
   return router;
 };
+
