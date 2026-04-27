@@ -35,7 +35,7 @@ const DashboardRoutes = require('./routes/dashboard.routes')(io);
 const loggerMiddleware = require("./middleware/logger");
 const errorLogger = require("./middleware/errorlogger");
 
-//app.use(loggerMiddleware);
+app.use(loggerMiddleware);
 // API Routes
 app.use('/api/auth', AuthRoutes);
 app.use("/api/master", MasterRoutes);
@@ -45,7 +45,7 @@ app.use("/api/receive", ReceiveRoutes);
 app.use("/api/inven", InvenRoutes);
 app.use("/api/dashboard", DashboardRoutes); 
 
-//app.use(errorLogger);
+app.use(errorLogger);
 
 app.use((err, req, res, next) => {
   console.error('🔥 ERROR:', err.stack);
