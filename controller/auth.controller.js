@@ -5,7 +5,10 @@ exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
     
-    const result = await authService.login(username, password);
+    const result = await authService.login({ 
+      UserName: username, 
+      Password: password 
+    });
 
     if (!result) {
       return res.status(401).json({ message: 'Invalid credentials' });

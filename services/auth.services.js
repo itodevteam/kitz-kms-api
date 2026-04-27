@@ -7,9 +7,9 @@ exports.login = async ({ UserName, Password }) => {
 
   const result = await pool
     .request()
-    .input("UserName", sql.NVarChar, UserName)
-    .input("Password", sql.NVarChar, Password)
-    .query("EXEC zsp_GetLogin @UserName,@Password");
+    .input("username", sql.NVarChar, UserName)
+    .input("password", sql.NVarChar, Password)
+    .query("EXEC zsp_GetLogin @username,@password");
 
   const user = result.recordset[0];
 
