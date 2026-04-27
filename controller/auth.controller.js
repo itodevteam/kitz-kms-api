@@ -3,7 +3,9 @@ const authService = require('../services/auth.services');
 // LOGIN
 exports.login = async (req, res) => {
   try {
-    const result = await authService.login(req.body);
+    const { username, password } = req.body;
+    
+    const result = await authService.login(username, password);
 
     if (!result) {
       return res.status(401).json({ message: 'Invalid credentials' });
@@ -72,6 +74,7 @@ exports.saveMenu = async (req, res) => {
     });
   }
 };
+
 exports.deleteMenu = async (req, res) => {
   try {
     const { data } = req.body;
@@ -215,6 +218,7 @@ exports.savePermission = async (req, res) => {
     });
   }
 };
+
 exports.deletePermission = async (req, res) => {
   try {
     const { data } = req.body;
@@ -286,6 +290,7 @@ exports.saveAccount = async (req, res) => {
     });
   }
 };
+
 exports.deleteAccount = async (req, res) => {
   try {
     const { data } = req.body;

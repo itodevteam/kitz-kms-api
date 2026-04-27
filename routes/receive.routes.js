@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const receiveController = require('../controllers/receive.controller');
+const receiveController = require('../controller/receive.controller');
 const verifyToken = require('../middleware/verifyToken');
 
 router.post("/master", receiveController.getDeliveryMaster);
