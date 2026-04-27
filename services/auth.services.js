@@ -2,13 +2,13 @@ const jwt = require('jsonwebtoken');
 const { sql, poolPromise } = require('../config/db');
 
 // LOGIN
-exports.login = async ({ username, password }) => {
+exports.login = async ({ UserName, Password }) => {
   const pool = await poolPromise;
 
   const result = await pool
     .request()
-    .input("username", sql.NVarChar, username)
-    .input("password", sql.NVarChar, password)
+    .input("username", sql.NVarChar, UserName)
+    .input("password", sql.NVarChar, Password)
     .query("EXEC zsp_GetLogin @username,@password");
 
   const user = result.recordset[0];
