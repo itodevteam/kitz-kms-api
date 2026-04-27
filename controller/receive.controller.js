@@ -37,7 +37,7 @@ exports.getDeliveryDetail = async (req, res) => {
 
 exports.getReceiveDetail = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
 
     const result = await receiveService.getReceiveDetail(data);
 
@@ -58,7 +58,7 @@ exports.getReceiveDetail = async (req, res) => {
 
 exports.confirmReceive = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
     const result = await receiveService.confirmReceive(data);
 
     res.json({
