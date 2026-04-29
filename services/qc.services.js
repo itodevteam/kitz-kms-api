@@ -14,3 +14,17 @@ exports.getItemInspection = async (data) => {
     data: result.recordsets[1]
   };
 };
+
+exports.confirmInspection = async (data) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_ConfirmInspection");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};

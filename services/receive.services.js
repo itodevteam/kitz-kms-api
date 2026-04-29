@@ -61,4 +61,18 @@ exports.confirmReceive = async (data) => {
   };
 };
 
+exports.returnReceive = async (data) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_ReturnReceive");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
 
