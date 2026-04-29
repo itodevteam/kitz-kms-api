@@ -10,6 +10,7 @@ module.exports = function (io) {
   router.post("/postatus",dashboardController.getPOStatus(io));
   router.post("/recentdata",dashboardController.getRecentData(io));
   router.post("/cardsummary",dashboardController.getCardsSummary(io));
+  router.post("/backlog",dashboardController.getBacklog(io));
   
   return router;
 };

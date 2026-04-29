@@ -55,3 +55,14 @@ exports.getCardSummary = async (data) => {
 
   return result.recordset;
 }
+
+exports.getBacklog = async (data) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("plantNo", sql.NVarChar, data.plantNo)
+    .execute("zsp_DashboardBacklog");
+
+  return result.recordset;
+}

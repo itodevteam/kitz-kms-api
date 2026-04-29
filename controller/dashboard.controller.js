@@ -131,4 +131,30 @@ exports.getCardsSummary = (io) => {
   };
 };
 
+exports.getBacklog = (io) => {
+  return async (req, res) => {
+    try {
+      const data  = req.body.data[0];
+
+      const backlog = await dashboardServices.getBacklog(data);
+
+      if (!backlog || backlog.length === 0) {
+        return res.status(404).json({ message: "Not found Backlog" });
+      }
+
+      // 🔥 realtime dashboard
+      io.emit("dashboard-backlog", backlog);
+
+      res.status(200).json({
+        result: "Success",
+        message: "Dashboard Backlog Data",
+        data: backlog,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err.message);
+    }
+  };
+};
+
 

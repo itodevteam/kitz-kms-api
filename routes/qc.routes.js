@@ -3,7 +3,8 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 const qcController = require("../controller/qc.controller");
 
-router.post("/iteminsp", qcController.getItemInspection);
-router.post("/confirminsp", qcController.confirmInspection);
+router.post("/getiteminsp", qcController.getItemInspection);
+router.post("/confirminspitem", qcController.confirmInspectionItem);
+router.post("/confirminsporder", qcController.confirmInspectionOrder);
 
 module.exports = router;

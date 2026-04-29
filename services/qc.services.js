@@ -15,16 +15,31 @@ exports.getItemInspection = async (data) => {
   };
 };
 
-exports.confirmInspection = async (data) => {
+exports.confirmInspectionItem = async (data) => {
   const pool = await poolPromise;
 
   const result = await pool
     .request()
     .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
-    .execute("zsp_ConfirmInspection");
+    .execute("zsp_ConfirmInspectionItem");
 
   return {
     info: result.recordsets[0],
     data: result.recordsets[1]
   };
 };
+
+exports.confirmInspectionOrder = async (data) => {
+  const pool = await poolPromise;
+
+  const result = await pool
+    .request()
+    .input("Json", sql.NVarChar(sql.MAX), JSON.stringify(data))
+    .execute("zsp_ConfirmInspectionOrder");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
