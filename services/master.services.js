@@ -1224,7 +1224,6 @@ exports.saveVendor = async (data) => {
 
   try {
     await transaction.begin();
-
     for (const row of data) {
       await new sql.Request(transaction)
         .input("flag", sql.NVarChar, row.flag || null)
@@ -1233,6 +1232,19 @@ exports.saveVendor = async (data) => {
         .input("vendorcode", sql.NVarChar, row.vendorcode || null)
         .input("vendorname", sql.NVarChar, row.vendorname || null)
         .input("plantno", sql.NVarChar, row.plantno || null)
+        .input("vendoraccountgroup", sql.NVarChar, row.vendoraccountgroup || null)
+        .input("province", sql.NVarChar, row.province || null)
+        .input("postcode", sql.NVarChar, row.postcode || null)
+        .input("vendoraddress", sql.NVarChar, row.vendoraddress || null)
+        .input("country", sql.NVarChar, row.country || null)
+        .input("phoneno", sql.NVarChar, row.phoneno || null)
+        .input("faxno", sql.NVarChar, row.faxno || null)
+        .input("currency", sql.NVarChar, row.currency || null)
+        .input("taxid", sql.NVarChar, row.taxid || null)
+        .input("mobileno", sql.NVarChar, row.mobileno || null)
+        .input("email", sql.NVarChar, row.email || null)
+        .input("vendtype", sql.NVarChar, row.vendtype || null)
+        .input("contactname", sql.NVarChar, row.contactname || null)
         .input("isactive", sql.Bit, row.isactive ?? null)
         .input("createby", sql.NVarChar, row.createdby || null)
         .input("device", sql.NVarChar, row.device || null)
@@ -1270,6 +1282,90 @@ exports.deleteVendor = async (data) => {
         .input("flag", sql.NVarChar, row.flag || null)
         .input("cond", sql.NVarChar, row.cond || null)
         .execute("mas_vendor");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+// Vendor contact Master
+
+exports.setVendorcontact = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC mas_vendorcontact @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.saveVendorcontact = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .input("vendorno", sql.NVarChar, row.vendorno || null)
+        .input("contactemail", sql.NVarChar, row.contactemail || null)
+        .input("contacttype", sql.NVarChar, row.contacttype || null)
+        .input("isactive", sql.Bit, row.isactive ?? null)
+        .input("createby", sql.NVarChar, row.createdby || null)
+        .input("device", sql.NVarChar, row.device || null)
+        .execute("mas_vendorcontact");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+exports.deleteVendorcontact = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("mas_vendorcontact");
     }
 
     await transaction.commit();

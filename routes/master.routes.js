@@ -82,6 +82,11 @@ router.post("/setvendor", masterController.setVendor);
 router.post("/savevendor", masterController.saveVendor);
 router.post("/deletevendor", masterController.deleteVendor);
 
+// Vendor contact Master
+router.post("/setvendorcontact", masterController.setVendorcontact);
+router.post("/savevendorcontact", masterController.saveVendorcontact);
+router.post("/deletevendorcontact", masterController.deleteVendorcontact);
+
 // Item Master
 router.post("/setitem", masterController.setItem);
 router.post("/saveitem", masterController.saveItem);
