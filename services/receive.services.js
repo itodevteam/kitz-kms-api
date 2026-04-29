@@ -9,11 +9,7 @@ exports.getDeliveryOrder = async (data) => {
     .input("flag", sql.NVarChar, data.flag)
     .input("cond", sql.NVarChar, data.cond)
     .execute("zsp_GetDeliveryOrder");
-
-  return {
-    info: result.recordsets[0],
-    data: result.recordsets[1]
-  };
+  return result.recordset;
 };
 
 exports.getDeliveryMaster = async (data) => {

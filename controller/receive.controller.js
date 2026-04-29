@@ -7,10 +7,18 @@ exports.getDeliveryOrder = async (req, res) => {
 
     const result = await receiveService.getDeliveryOrder(data);
 
+    if (!result || result.length === 0) {
+      return res.json({
+        success: false,
+        message: "No Delivery Order Data Found",
+        data: []
+      });
+    }
+
     res.json({
-      success: result.info?.[0]?.success === 1,
-      message: result.info?.[0]?.message || "Success",
-      data: result.data || []
+      success: true,
+      message: "Delivery Order Data",
+      data: result || []
     });
 
   } catch (err) {
