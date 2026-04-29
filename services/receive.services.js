@@ -1,6 +1,21 @@
 const e = require("cors");
 const { sql, poolPromise } = require("../config/db");
 
+exports.getDeliveryOrder = async (data) => {
+  const pool = await poolPromise; 
+
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, data.flag)
+    .input("cond", sql.NVarChar, data.cond)
+    .execute("zsp_GetDeliveryOrder");
+
+  return {
+    info: result.recordsets[0],
+    data: result.recordsets[1]
+  };
+};
+
 exports.getDeliveryMaster = async (data) => {
   const pool = await poolPromise; 
 

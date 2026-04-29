@@ -3,6 +3,7 @@ const router = express.Router();
 const receiveController = require('../controller/receive.controller');
 const verifyToken = require('../middleware/verifyToken');
 
+router.post("/order", receiveController.getDeliveryOrder);
 router.post("/master", receiveController.getDeliveryMaster);
 router.post("/detail", receiveController.getDeliveryDetail);
 router.post("/receive", receiveController.getReceiveDetail);

@@ -1,6 +1,23 @@
 const e = require("cors");
 const receiveService = require("../services/receive.services");
 
+exports.getDeliveryOrder = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const result = await receiveService.getDeliveryOrder(data);
+
+    res.json({
+      success: result.info?.[0]?.success === 1,
+      message: result.info?.[0]?.message || "Success",
+      data: result.data || []
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 exports.getDeliveryMaster = async (req, res) => {
   try {
     const data = req.body;  
