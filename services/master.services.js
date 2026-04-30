@@ -85,6 +85,89 @@ exports.deletePlant = async (data) => {
   }
 };
 
+// Defect Master
+exports.setDefect = async (flag, cond) => {
+  const pool = await poolPromise;
+  const result = await pool
+    .request()
+    .input("flag", sql.NVarChar, flag)
+    .input("cond", sql.NVarChar, cond)
+    .query("EXEC mas_defect @flag,@cond");
+
+  return result.recordset;
+};
+
+exports.saveDefect = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .input("defectname", sql.NVarChar, row.defectname || null)
+        .input("defecttype", sql.NVarChar, row.defecttype || null)
+        .input("isactive", sql.Bit, row.isactive ?? null)
+        .input("createby", sql.NVarChar, row.createdby || null)
+        .input("device", sql.NVarChar, row.device || null)
+        .execute("mas_defect");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
+exports.deleteDefect = async (data) => {
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool);
+
+  try {
+    await transaction.begin();
+
+    for (const row of data) {
+      await new sql.Request(transaction)
+        .input("flag", sql.NVarChar, row.flag || null)
+        .input("cond", sql.NVarChar, row.cond || null)
+        .execute("mas_defect");
+    }
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Transaction completed"
+    };
+
+  } catch (err) {
+
+    console.error("TRANSACTION ERROR:", err.message);
+
+    // ✅ ป้องกัน rollback ซ้ำ
+    if (!transaction._aborted) {
+      await transaction.rollback();
+    }
+
+    throw new Error(`Transaction failed: ${err.message}`);
+  }
+};
 
 
 // Category Master

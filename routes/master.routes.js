@@ -4,11 +4,16 @@ const masterController = require("../controller/master.controller");
 const verifyToken = require('../middleware/verifyToken');
 
 // Plant Master
-//router.post("/setplant", verifyToken, masterController.setPlant);
-//router.post("/saveplant", verifyToken, masterController.savePlant);
+
 router.post("/setplant", masterController.setPlant);
 router.post("/saveplant", masterController.savePlant);
 router.post("/deleteplant", masterController.deletePlant);
+
+// Defect Master
+
+router.post("/setdefect", masterController.setDefect);
+router.post("/saveefect", masterController.saveDefect);
+router.post("/deleteefect", masterController.deleteDefect);
 
 // Category Master
 router.post("/setcategory", masterController.setCategory);
