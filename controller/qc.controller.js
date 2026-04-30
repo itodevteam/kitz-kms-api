@@ -3,7 +3,7 @@ const qcServices = require("../services/qc.services");
 
 exports.getItemInspection = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
     const result = await qcServices.getItemInspection(data);
 
     res.json({
@@ -23,7 +23,7 @@ exports.getItemInspection = async (req, res) => {
 
 exports.confirmInspectionItem = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
     const result = await qcServices.confirmInspectionItem(data);
 
     res.json({
@@ -43,7 +43,7 @@ exports.confirmInspectionItem = async (req, res) => {
 
 exports.confirmInspectionOrder = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.data[0];
     const result = await qcServices.confirmInspectionOrder(data);
 
     res.json({
